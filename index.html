@@ -32,19 +32,27 @@ figcaption{font:600 13px system-ui;color:var(--g);margin-bottom:8px}
 .lg{list-style:none;margin:0;padding:0;font-size:13px}.lg u{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:6px}
 .tw{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14px}
 th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}th{background:var(--g2)}.n{text-align:right}
-.doc{border:1px solid var(--line);border-left:5px solid var(--g);border-radius:8px;padding:16px;margin:0 0 16px}
+.doc{background:#fff;border:1px solid var(--line);box-shadow:0 2px 10px #0002;padding:26px 30px;margin:0 auto 24px;max-width:794px}
+.kp{display:flex;gap:14px;align-items:center;text-align:center;border-bottom:3px double var(--g);padding-bottom:10px}
+.kp>img,.kp>svg{width:74px;height:74px;flex:none;object-fit:contain}.kp>div{flex:1}
+.kp b{display:block;font:700 19px Georgia,serif;color:var(--g);line-height:1.25}.kp .lm{display:block;font-weight:700;color:var(--au);margin:2px 0}
+.kp small{display:block;color:var(--mut);font-size:10.5px;line-height:1.45}
+.jd{text-align:center;margin:14px 0 10px;font:700 15px Georgia,serif;line-height:1.5}
+.mt{display:grid;grid-template-columns:1fr auto;gap:14px;border:1px solid var(--line);border-radius:6px;padding:10px 14px;font-size:12.5px;background:#f8fbf9;line-height:1.7}
+.mt .rt{text-align:right;border-left:1px solid var(--line);padding-left:14px}.mt code{font-size:11px;word-break:break-all}
+.nt{font-size:12px;color:var(--mut);margin:14px 0 0;text-align:center}
 .dh{display:flex;gap:12px;align-items:center;margin-bottom:8px}.dh>div{flex:1}.dh small{color:var(--mut);word-break:break-all}
 .no{width:34px;height:34px;border-radius:50%;background:var(--g);color:#fff;display:grid;place-items:center;font:700 16px Georgia,serif;flex:none}
 .tag{padding:2px 10px;border-radius:12px;font-size:12px;white-space:nowrap}
 .bad{background:#f6dcdd;color:var(--r)}.warn{background:#fbe8d3;color:var(--w)}.ok{background:var(--g2);color:var(--g)}
 li{margin:4px 0}ul,ol{padding-left:22px;margin:4px 0}.mut{color:var(--mut)}.toc a{color:var(--g)}
-.sg{display:flex;justify-content:space-between;gap:20px;margin-top:20px;text-align:center}.sg div{flex:1}.sg p{margin:70px 0 0;font-weight:700;text-decoration:underline}
+.sg{display:flex;justify-content:space-between;gap:20px;margin-top:20px;text-align:center}.sg div{flex:1}.sg p{margin:64px 0 0;font-weight:700}
 .pf{display:none}
 @page{size:A4;margin:16mm 14mm 18mm;@bottom-left{content:"Laporan Monev Kepegawaian · PPM Al-Azhar Muncar";font:8.5pt Georgia;color:#777}@bottom-right{content:"Halaman " counter(page);font:8.5pt Georgia;color:#777}}
 @page :first{margin:0;@bottom-left{content:none}@bottom-right{content:none}}
 @media print{.noprint{display:none}body{background:#fff;font-size:10.5pt}.cover{height:297mm;page-break-after:always}
 main{padding:0;max-width:none}section{border:0;padding:0;margin:0 0 6mm}h2{break-after:avoid;margin-top:2mm}
-section.pb{break-before:page}.doc{break-inside:avoid-page;border-radius:0}.dh{break-after:avoid}figure{break-inside:avoid}.sg{break-inside:avoid}}
+section.pb{break-before:page}.doc{break-before:page;box-shadow:none;border:0;padding:0;max-width:none}.dh{break-after:avoid}figure{break-inside:avoid}.sg{break-inside:avoid}}
 </style></head><body>
 <div class="cover"><div class="cv">
 <div class="kop">PONDOK PESANTREN MODERN<br>AL AZHAR MUNCAR<br>SUB BIDANG KEPEGAWAIAN</div><div class="ln"></div>
@@ -55,6 +63,7 @@ section.pb{break-before:page}.doc{break-inside:avoid-page;border-radius:0}.dh{br
 <div class="bar noprint">
 <label>Periode <select id="bln"></select></label>
 <button class="p" onclick="window.print()">Cetak / simpan PDF (A4)</button>
+<label class="mut">Logo: <input type="file" id="lgo" accept="image/*"></label>
 <button onclick="dlJson()">Unduh data (JSON)</button>
 <label class="mut">Impor bulan baru: <input type="file" id="imp" accept=".json"></label>
 </div>
@@ -223,6 +232,20 @@ an:["Kedua petugas bertanda tangan setiap hari (31/31). Mas Riyan dicoret dan di
 ch:[{k:"bar",t:"Kondisi lapangan terisi (hari)",it:[["Tertulis 'Aman' (1–19 Okt)",19],["Kolom kosong (20–31 Okt)",12]]}],
 tl:["Wajibkan pengisian kondisi lapangan setiap hari.","Lengkapi tanda tangan penerima akhir dan legenda kondisi paket."]}
 ];
+const META=[
+["Divisi Media & IT","Tim Media & IT"],
+["Sub Bidang Kepegawaian – Karyawan Kebersihan, Satpam, dan Dapur","Ust. Ja'far Sodiq (Kebersihan), Candra Saputra (Satpam), Pak Amin (Dapur)"],
+["SMP Al-Azhar Muncar (Tahun Ajaran 2026-2027)","Ust. Mazro'atul Ilmi, S.Pd (Kepala Sekolah) dan Ust. Rani Juhana Putri, S.Pd (Waka Kurikulum)"],
+["Bimbingan Konseling Pesantren dan Sekolah","Guru BK (Wisnu Ariska, S.Pd.; Muh. Afif, S.Pd.)"],
+["Sub Bidang Kepegawaian – Pegawai Struktural Pesantren","Kepala Sub Bidang Kepegawaian (Candra Saputra, S.H., S.Pd., Gr.)"],
+["MA Unggulan Al Azhar Muncar","Ust. Iwan Prasetyo, S.Pd (Waka Kurikulum)"],
+["TPQ Belakang","Belum tercantum di berkas"],
+["TPQ dan Unit Laundry","Belum tercantum di berkas"],
+["MDT Al Azhar Muncar","Belum tercantum di berkas"],
+["Unit Kebersihan dan Perlengkapan","Ust. Ja'far Sodiq (Supervisor)"],
+["Dapur Umum PPM Al Azhar Muncar","Pak Amin (Supervisor)"],
+["Satuan Pengamanan PPM Al Azhar Muncar","Candra Saputra, S.H., S.Pd., Gr. (Supervisor)"]];
+OKT.docs.forEach((d,i)=>{d.lm=META[i][0];d.pj=META[i][1]});
 // ===== APLIKASI =====
 let STORE={};try{STORE=JSON.parse(localStorage.getItem("monev")||"{}")}catch(e){}
 STORE[OKT.key]=OKT;let cur=OKT.key;
@@ -236,9 +259,20 @@ function sum2(d){const u=uniq(d),ng=d.nonguru;return{orang:u.length+ng.length,te
 function dl(n,t,c){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([c],{type:t}));a.download=n;a.click()}
 function dlJson(){dl("data-monev-"+cur+".json","application/json",JSON.stringify(STORE[cur],null,1))}
 function delta(a,b){if(b==null)return"";const d=a-b;return d?`<small class="${d>0?"up":"dn2"}">${d>0?"▲":"▼"} ${Math.abs(d)} dari bulan lalu</small>`:"<small>tetap</small>"}
-function docH(d,i){const S={ok:"Baik",warn:"Perlu perhatian",bad:"Perlu tindak lanjut"};
-return`<article class="doc" id="d${i}"><div class="dh"><span class="no">${i+1}</span><div><h3>${d.t}</h3><small>${d.f} · ${d.u} · ${d.tp}</small></div><span class="tag ${d.st}">${S[d.st]}</span></div>
-<p><b>Isi dokumen.</b> ${d.isi}</p><h4>Analisis</h4><ul>${d.an.map(x=>`<li>${x}</li>`).join("")}</ul>${(d.ch||[]).map(fig).join("")}<h4>Tindak lanjut</h4><ul>${d.tl.map(x=>`<li>${x}</li>`).join("")}</ul></article>`}
+let LOGO="";try{LOGO=localStorage.getItem("monevLogo")||""}catch(e){}
+const TGL=new Date().toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"});
+const EMB='<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="#12382f" stroke="#a8863a" stroke-width="3"/><circle cx="50" cy="50" r="38" fill="none" stroke="#a8863a"/><path d="M50 22c8 8 14 14 14 24H36c0-10 6-16 14-24z" fill="#fff"/><rect x="34" y="46" width="32" height="16" fill="#fff"/><text x="50" y="80" font-size="9" text-anchor="middle" fill="#e8d9a8" font-family="Georgia">AL-AZHAR</text></svg>';
+const KOP=lm=>`<div class="kp">${LOGO?`<img src="${LOGO}" alt="Logo">`:EMB}<div><b>PONDOK PESANTREN MODERN AL AZHAR MUNCAR</b><span class="lm">${lm.toUpperCase()}</span><small>Notaris ZIA UL HAK, S.H., M.Kn. KEMENKUMHAM No. AHU-0015570.AH.01.04 Tahun 2015<br>Jl. Ompaksongo Tembokrejo, Muncar, Banyuwangi · Telp. (0333) 593590 · Kode Pos 68472 · www.alazharmuncar.org</small></div></div>`;
+const SIGN=()=>`<p class="nt">Tanda tangan berikut menyatakan bahwa berkas ini telah dimonitoring dan dievaluasi.</p><div class="sg"><div>Mengetahui,<br>Pimpinan dan Pengasuh<p>( ............................................ )</p></div><div>Muncar, ${TGL}<br>Kepala Sub Bidang Kepegawaian<p>Candra Saputra, S.H., S.Pd., Gr.</p></div></div>`;
+function docH(d,i){const S={ok:"Baik",warn:"Perlu perhatian",bad:"Perlu tindak lanjut"},ch=d.ch||[],no=String(i+1).padStart(2,"0");
+return`<article class="doc" id="d${i}">${KOP(d.lm)}
+<div class="jd">LAPORAN ANALISIS BERKAS ${i+1}<br>${d.t.toUpperCase()}<br><span style="font-weight:400;font-size:12px">PERIODE: ${STORE[cur].bulan.toUpperCase()}</span></div>
+<div class="mt"><div><b>Nama file sumber:</b> <code>${d.f}</code><br><b>Unit/Lembaga:</b> ${d.lm}<br><b>Penanggung jawab:</b> ${d.pj}<br><b>Jenis berkas:</b> ${d.tp}</div>
+<div class="rt"><span class="tag ${d.st}">${S[d.st]}</span><br>No. berkas<br><b>MONEV/${cur.slice(5)}-${cur.slice(0,4)}/${no}</b><br><i>Menunggu pengesahan</i></div></div>
+<h4>HASIL ANALISIS DAN TEMUAN BERKAS INI</h4><p>${d.isi}</p><ul>${d.an.map(x=>`<li>${x}</li>`).join("")}</ul>${ch.map(fig).join("")}
+<h4>LAMPIRAN A – DATA HASIL EKSTRAKSI DARI PDF</h4>${ch.map(c=>`<div class="tw"><table><tr><th>${c.t}</th><th class="n">Nilai</th></tr>${c.it.map(x=>`<tr><td>${x[0]}</td><td class="n">${x[1]}${c.u||""}</td></tr>`).join("")}</table></div>`).join("<br>")}
+<h4>LAMPIRAN B – SUMBER DATA</h4><p style="font-size:13px;margin:2px 0">File PDF asli: <code>${d.f}</code>, diserahkan ke Sub Bidang Kepegawaian untuk periode ${STORE[cur].bulan}.</p>
+<h4>TINDAK LANJUT</h4><ul>${d.tl.map(x=>`<li>${x}</li>`).join("")}</ul>${SIGN()}</article>`}
 function render(){
  const d=STORE[cur],k=sum2(d),keys=Object.keys(STORE).sort(),pk=keys[keys.indexOf(cur)-1],pv=pk?sum2(STORE[pk]):null,docs=d.docs||[];
  $("bln").innerHTML=keys.map(x=>`<option value="${x}"${x==cur?" selected":""}>${STORE[x].bulan}</option>`).join("");
@@ -273,8 +307,9 @@ ${docs.length?`<section class="pb"><h2>Analisis per Berkas</h2><p class="toc">${
 <li>Ganti ceklis, buku tamu, dan absensi tulisan tangan dengan formulir digital seragam agar dapat diimpor tiap bulan.</li>
 <li>Gunakan satu nama baku per orang di semua unit dan lengkapi data ceklok yang kosong.</li></ol>
 <h2 style="margin-top:18px">Catatan Kualitas Data</h2><ul>${d.catatan.map(c=>`<li>${c}</li>`).join("")}</ul>
-<div class="sg"><div>Mengetahui,<br>Pimpinan<p>&nbsp;</p></div><div>Muncar, ${new Date().toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"})}<br>Kepala Sub Bidang Kepegawaian<p>Candra Saputra, S.H., S.Pd., Gr.</p></div></div></section>`;
+${SIGN()}</section>`;
  $("per").textContent="Periode "+d.bulan;$("tgl").textContent=new Date().toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"})}
+$("lgo").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{LOGO=r.result;try{localStorage.setItem("monevLogo",LOGO)}catch(x){}render()};r.readAsDataURL(f)};
 $("bln").onchange=e=>{cur=e.target.value;render()};
 $("imp").onchange=e=>{const f=e.target.files[0];if(!f)return;f.text().then(t=>{try{const d=JSON.parse(t);if(!d.key||!d.staff)throw 0;STORE[d.key]=d;cur=d.key;try{localStorage.setItem("monev",JSON.stringify(STORE))}catch(x){}render()}catch(x){alert("File tidak valid. Gunakan JSON hasil 'Unduh data' sebagai templat.")}})};
 render();
