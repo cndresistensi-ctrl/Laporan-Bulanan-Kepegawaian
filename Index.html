@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Monev Kepegawaian – PPM Al-Azhar Muncar</title>
+<style>
+:root{--ink:#1c2a26;--mut:#5f6d68;--g:#12382f;--g2:#e6eeea;--au:#a8863a;--w:#b4540a;--r:#a1262b;--line:#d9e0dc;--bg:#f3f6f4}
+*{box-sizing:border-box}html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}
+h1,h2,h3{font-family:Georgia,"Palatino Linotype",serif;margin:0;font-weight:700}
+.cover{background:var(--g);color:#fff;min-height:440px;display:flex;align-items:center;justify-content:center;text-align:center;padding:28px}
+.cv{border:1px solid var(--au);outline:1px solid var(--au);outline-offset:6px;padding:34px 26px;max-width:720px;width:100%}
+.cv .kop{letter-spacing:.14em;font-size:13px;color:#e8d9a8}.cv h1{font-size:34px;line-height:1.2;margin:22px 0 6px}
+.cv .ln{width:90px;height:2px;background:var(--au);margin:16px auto}.cv .per{font:italic 22px Georgia,serif;color:#e8d9a8}
+.cv .meta{margin-top:26px;font-size:13px;line-height:1.8;opacity:.92}.cv .al{font-size:11px;opacity:.7;margin-top:22px}
+main{max-width:1000px;margin:0 auto;padding:16px}
+.bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:0 0 16px}
+button,select{font:inherit;padding:7px 14px;border:1px solid var(--g);background:#fff;color:var(--g);border-radius:6px;cursor:pointer}
+button.p{background:var(--g);color:#fff}button:focus-visible,select:focus-visible{outline:3px solid #7fb5a2}
+section{background:#fff;border:1px solid var(--line);border-radius:10px;padding:20px;margin:0 0 18px}
+h2{font-size:21px;color:var(--g);padding-bottom:8px;margin-bottom:14px;border-bottom:2px solid var(--au)}
+h3{font-size:18px;color:var(--g)}h4{font-size:13px;color:var(--au);margin:14px 0 4px;letter-spacing:.04em}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.kpi div{border-top:3px solid var(--au);background:var(--g2);padding:10px 12px;border-radius:4px}
+.kpi b{display:block;font:700 24px Georgia,serif;color:var(--g)}.kpi small{color:var(--mut)}
+.up{color:var(--r)}.dn2{color:var(--g)}
+.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+figure{margin:12px 0;padding:12px;border:1px solid var(--line);border-radius:8px;break-inside:avoid}
+figcaption{font:600 13px system-ui;color:var(--g);margin-bottom:8px}
+.hb{display:grid;grid-template-columns:minmax(90px,150px) 1fr 52px;gap:8px;align-items:center;font-size:13px;margin:4px 0}
+.hb .tr{background:var(--g2);border-radius:5px;height:10px}.hb i{display:block;height:10px;border-radius:5px}.hb b{text-align:right}
+.dw{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.dn{width:130px;height:130px;border-radius:50%;position:relative}.dn:after{content:"";position:absolute;inset:32px;background:#fff;border-radius:50%}
+.lg{list-style:none;margin:0;padding:0;font-size:13px}.lg u{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:6px}
+.tw{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}th{background:var(--g2)}.n{text-align:right}
+.doc{border:1px solid var(--line);border-left:5px solid var(--g);border-radius:8px;padding:16px;margin:0 0 16px}
+.dh{display:flex;gap:12px;align-items:center;margin-bottom:8px}.dh>div{flex:1}.dh small{color:var(--mut);word-break:break-all}
+.no{width:34px;height:34px;border-radius:50%;background:var(--g);color:#fff;display:grid;place-items:center;font:700 16px Georgia,serif;flex:none}
+.tag{padding:2px 10px;border-radius:12px;font-size:12px;white-space:nowrap}
+.bad{background:#f6dcdd;color:var(--r)}.warn{background:#fbe8d3;color:var(--w)}.ok{background:var(--g2);color:var(--g)}
+li{margin:4px 0}ul,ol{padding-left:22px;margin:4px 0}.mut{color:var(--mut)}.toc a{color:var(--g)}
+.sg{display:flex;justify-content:space-between;gap:20px;margin-top:20px;text-align:center}.sg div{flex:1}.sg p{margin:70px 0 0;font-weight:700;text-decoration:underline}
+.pf{display:none}
+@page{size:A4;margin:16mm 14mm 18mm;@bottom-left{content:"Laporan Monev Kepegawaian · PPM Al-Azhar Muncar";font:8.5pt Georgia;color:#777}@bottom-right{content:"Halaman " counter(page);font:8.5pt Georgia;color:#777}}
+@page :first{margin:0;@bottom-left{content:none}@bottom-right{content:none}}
+@media print{.noprint{display:none}body{background:#fff;font-size:10.5pt}.cover{height:297mm;page-break-after:always}
+main{padding:0;max-width:none}section{border:0;padding:0;margin:0 0 6mm}h2{break-after:avoid;margin-top:2mm}
+section.pb{break-before:page}.doc{break-inside:avoid-page;border-radius:0}.dh{break-after:avoid}figure{break-inside:avoid}.sg{break-inside:avoid}}
+</style></head><body>
+<div class="cover"><div class="cv">
+<div class="kop">PONDOK PESANTREN MODERN<br>AL AZHAR MUNCAR<br>SUB BIDANG KEPEGAWAIAN</div><div class="ln"></div>
+<h1>Laporan Monitoring &amp; Evaluasi<br>Kepegawaian</h1><div class="per" id="per"></div><div class="ln"></div>
+<div class="meta">Ditujukan kepada: Pimpinan Pondok Pesantren<br>Disusun oleh: Sub Bidang Kepegawaian<br>Muncar, <span id="tgl"></span></div>
+<div class="al">Jl. Ompaksongo, Tembokrejo, Muncar, Banyuwangi · Telp. (0333) 593590 · Kode Pos 68472</div></div></div>
+<main>
+<div class="bar noprint">
+<label>Periode <select id="bln"></select></label>
+<button class="p" onclick="window.print()">Cetak / simpan PDF (A4)</button>
+<button onclick="dlJson()">Unduh data (JSON)</button>
+<label class="mut">Impor bulan baru: <input type="file" id="imp" accept=".json"></label>
+</div>
+<div id="rpt"></div>
+</main>
+<script>
+// ===== DATA OKTOBER 2026 (diekstrak dari PDF) =====
+// staff: [unit, nama, JP, telat, izin(presensi), hari izin/cuti, keterangan]
+const OKT={key:"2026-10",bulan:"Oktober 2026",hariKalender:31,
+staff:[
+["Struktural","Leoda Zulfikar",null,0,0,1,"Izin sakit"],
+["Struktural","Candra Saputra",null,4,0,2,"Acara keluarga"],
+["Struktural","Gayatri Oktarina",null,5,0,11,"Berduka"],
+["Struktural","Khoirul Hadi",null,0,0,3,"Acara keluarga"],
+["Struktural","Husni Abdul Basith",null,0,0,0,"PTT"],
+["SMP","Mazro'atul Ilmi",20,0,0,0,""],["SMP","Leoda Zulfikar",8,0,0,0,""],
+["SMP","Titin Nur Hayati",20,0,0,1,"Acara keluarga"],["SMP","Quin Permatasari",24,13,3,2,"Anak sakit"],
+["SMP","Ahmad Sufyan Muzaki",30,1,0,3,"Tidak enak badan, anak sakit"],["SMP","Brigita Wanda",30,3,0,2,"Acara keluarga"],
+["SMP","Nurlila Savitri",30,16,0,2,"Acara keluarga"],["SMP","Rani Juhana Putri",24,7,2,0,""],
+["SMP","Khoirul Hadi",12,0,0,4,"Acara keluarga"],["SMP","M. Ramdan Juliansyah",28,4,0,2,"Acara keluarga"],
+["SMP","Eza Purnama",24,7,3,3,"Acara keluarga, takziah"],["SMP","Felindika Wulandari",20,13,0,0,""],
+["SMP","Gayatri Oktarina",6,0,0,0,""],["SMP","Muammar",20,16,0,0,""],["SMP","Wildan Alan",12,0,0,6,"Kepentingan keluarga"],
+["SMP","Rizky Amalia",12,0,0,0,""],["SMP","Winda Fifi Puspitasari",32,22,0,3,"Tidak enak badan, acara keluarga"],
+["SMP","Nurina Alfiasari",18,6,0,1,"Tidak enak badan"],["SMP","Abdul Aziz",20,0,0,2,"Istri sakit"],
+["SMP","Balya Hidayat",8,0,0,0,""],["SMP","Arif Jauhari",12,0,0,2,"Kepentingan pribadi"],
+["SMP","Irfa'ul Monawaroh",8,0,0,0,""],["SMP","Muh. Afif",null,0,0,10,"Kepentingan pribadi"],
+["MA","Balya Hidayat",14,0,0,0,""],["MA","Candra Saputra",20,4,0,2,"Saudara menikah"],
+["MA","Gayatri Oktarina",2,5,0,11,"Antar orang tua kontrol, berduka"],["MA","Mita Armis Diyanti",16,3,0,0,""],
+["MA","Fina Kristina",16,3,0,3,"Kuliah offline"],["MA","Iqlila M.",18,3,0,1,"Antar orang tua periksa"],
+["MA","Iramaya Dewi W.P.",26,24,0,1,"Kepentingan keluarga"],["MA","Amzad Arroisi",20,11,0,3,"Kepentingan tak bisa ditinggal"],
+["MA","Khoirul Huda",18,4,0,1,"Haul"],["MA","Ummahatun Ni'mah",20,1,0,0,""],
+["MA","Hamdy Rois",26,18,0,2,"Sakit tanpa surat dokter"],["MA","A. Rohmanu Fauzi",8,3,0,0,""],
+["MA","Mufidatul Mustowiyah",18,8,0,2,"Haul, saudara menikah"],["MA","Iwan Prasetyo",18,1,0,0,""],
+["MA","Miftahul Azizah",20,1,0,1,"Sakit tanpa surat"],["MA","Siti Nur Ivada",26,2,0,3,"Anak sakit, sakit"],
+["MA","Wildan",4,0,0,0,""]],
+// nonguru: [unit, nama, hari kerja, hadir, izin, alpa, keterangan]
+nonguru:[
+["Kebersihan","Pak Lan",26,26,0,0,""],["Kebersihan","Pak Lukman",26,23,1,0,"Digantikan 2 hari oleh Kang Sodik"],
+["Kebersihan","Pak Wahid",26,24,2,0,"3x tidak ceklok"],["Kebersihan","Kang Sodik (pengganti)",2,2,0,0,"Mengganti Pak Lukman"],
+["Satpam","Irsyad",31,31,0,0,"Log 31 hari 'Aman'"],["Satpam","Pak Haqi",31,31,0,0,""],
+["Dapur","Pak Amin",31,31,0,0,"Log 'Lancar'"],["Dapur","Bu Anis",31,31,0,0,""],["BK","Wisnu Ariska",31,31,0,0,"Jurnal bimbingan terlampir"]],
+honor:[["Bimbel TKA SMP",10,86,5860000],["Kelas sore MA pusat",6,44,3080000]],
+media:{live:31,event:2,dok:6,desain:3},
+catatan:[
+"Banyak lampiran berupa scan/foto tulisan tangan (ceklis kebersihan, buku tamu satpam, buku ekspedisi, absensi dapur, jurnal BK) sehingga hanya sebagian dapat dihitung otomatis.",
+"Satu orang tercatat di beberapa unit (Gayatri, Candra, Khoirul Hadi, Leoda, Balya). Total laporan ini menghitung orangnya sekali (nilai tertinggi).",
+"Khoirul Hadi: izin 3 hari (struktural) vs 4 hari (SMP). Perlu rekonsiliasi.",
+"Presensi SMP vs rekap cuti tidak sama: Quin I=3 vs cuti 2; Rani I=2 vs cuti 0; Sufyan I=0 vs cuti 3.",
+"MA – Siti Nur Ivada: tanggal cuti tertulis 5 hari (12,13,16,17,19 Okt) tetapi jumlah 3.",
+"Media & IT: 'Live TikTok Hari Santri' bertanggal 19 September (di luar periode); Hari Santri Nasional jatuh 22 Oktober. Mohon cek tanggal.",
+"Ceklok TPQ/Laundry: dua kolom angka dan predikat tidak berlabel jelas; ceklok MDT: banyak nama tanpa data jam (belum bisa dibedakan antara tidak jadwal atau tidak ceklok).",
+"Buku ekspedisi: kolom tanda tangan penerima akhir kosong pada baris yang terbaca; 2 paket tanggal 16 Okt (Basith, Fina Kristina) tanpa waktu diserahkan.",
+"Bisyaroh SMP pada berkas ini berupa honor bimbel TKA. Berkas 'Waktu Absen/Tabulasi' dan kelas sore MA belum diberi nama unit."]};
+// ===== ANALISIS PER BERKAS PDF =====
+OKT.docs=[
+{f:"LAPORAN_BULANAN_OKTOBER_26_DIVISI_MEDIA___IT.pdf",t:"Laporan Bulanan Divisi Media & IT",u:"Media & IT",tp:"Teks digital",st:"warn",
+isi:"Laporan 1–31 Oktober 2026 oleh Tim Media & IT (tertanggal 4 November 2026) dalam tiga bagian: publikasi dan live streaming, dokumentasi dan editing video, serta desain grafis.",
+an:["Live streaming pengajian ba'da Subuh berjalan konsisten sepanjang 31 hari melalui YouTube dan TikTok.",
+"Ada 2 siaran event: Tasmi' Al-Qur'an 5 Juz Bil Ghaib (10 Okt) dan Live TikTok Hari Santri.",
+"Dokumentasi dan editing video berjumlah 6 butir. Empat di antaranya (10, 12, 19, 22 Okt) berkaitan dengan Tasmi' yang sama, sedangkan 2 lainnya adalah konten PSB 2027/2028 (5 Okt) dan seremoni keberangkatan ke Mesir (10 Okt).",
+"Desain grafis ada 3 pamflet: Hari Santri Nasional (21 Okt), dokumentasi Tasmi' (18 Okt), dan dokumentasi foto Hari Santri (24 Okt).",
+"Temuan data: Live Hari Santri bertanggal 19 September (di luar periode, padahal Hari Santri 22 Oktober) dan ada satu butir kosong di bagian II.",
+"Laporan hanya berupa daftar kegiatan. Belum ada capaian terukur seperti jumlah penonton, jangkauan, atau durasi tayang, dan belum ada nama pelaksana per tugas."],
+ch:[{k:"bar",t:"Jumlah output non-rutin",it:[["Dokumentasi/editing video",6],["Desain pamflet",3],["Siaran event",2]]}],
+tl:["Koreksi tanggal live Hari Santri.","Tambahkan metrik YouTube/TikTok dan target bulanan agar kinerja dapat dievaluasi."]},
+{f:"REKAP_ABSENSI_KARYAWAN_KEBERSIHAN_DAN_PERLENGKAPAN_BULAN_OKTOBER_2026_1.pdf",t:"Rekap Absensi Karyawan Kebersihan, Satpam, dan Dapur",u:"Kebersihan · Satpam · Dapur",tp:"Teks + data ceklok",st:"warn",
+isi:"Rekap tiga unit dengan supervisor Ja'far Sodiq (kebersihan, 26 hari kerja), Candra Saputra (satpam, 31 hari), dan Pak Amin (dapur, 31 hari), ditambah data mesin ceklok kebersihan 1–31 Oktober.",
+an:["Pak Lan masuk 26 dari 26 hari (100%).","Pak Lukman masuk 23 hari, izin 1 hari, dan digantikan Kang Sodik 2 hari (kehadiran sendiri 88,5%).","Pak Wahid masuk 24 hari, izin 2 hari (kehadiran 92,3%), serta tidak ceklok 3 kali.",
+"Mesin ceklok Pak Wahid mencatat 21 hari; 19 di antaranya datang setelah 07.30 (jam kerja 07.30–16.00), paling lambat 08.30.",
+"Pak Lan mayoritas datang 06.23–07.30; sekitar 5 hari melewati 07.30.",
+"Pak Lukman tidak memiliki data ceklok sama sekali walau tercatat masuk 23 hari, sehingga kehadirannya hanya berdasar ceklis manual.",
+"Satpam (Irsyad, Pak Haqi) dan dapur (Pak Amin, Bu Anis) masing-masing 31/31 hari tanpa sakit, izin, atau alpa."],
+ch:[{k:"bar",t:"Kehadiran staf kebersihan (% dari 26 hari kerja)",u:"%",it:[["Pak Lan",100],["Pak Wahid",92.3],["Pak Lukman",88.5]]}],
+tl:["Pasang/registrasi ulang ceklok untuk Pak Lukman.","Tegur keterlambatan Pak Wahid dan evaluasi jam kerja."]},
+{f:"REKAP_BISYAROH_SMP_PERIODE_OKTOBER_2026.pdf",t:"Presensi, Cuti, Struktur, dan Honor Bimbel TKA SMP",u:"SMP",tp:"Teks digital",st:"bad",
+isi:"Empat bagian: rekap presensi guru SMP (22 guru), rekap cuti (14 guru), daftar wali kelas dan wakil bidang, serta honor bimbel TKA bulan Oktober.",
+an:["Terlambat total 108 kali, dialami 11 dari 22 guru. Tertinggi Winda (22), Nurlila (16), Muammar (16), Quin (13), Felindika (13).",
+"Cuti total 43 hari dari 14 guru. Terpanjang Muh. Afif (10 hari), Wildan (6), dan Khoirul Hadi (4). Alasan dominan: acara keluarga, sakit, dan anak sakit.",
+"Presensi dan cuti tidak sinkron: Quin tercatat izin 3 di presensi tetapi 2 di cuti; Rani izin 2 tetapi 0 di cuti; Sufyan izin 0 tetapi 3 di cuti.",
+"Empat dari 10 wali kelas terlambat ≥10 kali (Winda 22, Nurlila 16, Quin 13, Felindika 13), padahal wali kelas memegang peran pembinaan siswa.",
+"Banyak guru merangkap jabatan (Quin wali IXD dan bendahara; Eza wali IXC dan K.TU; Abdul Aziz wali VIIIC dan Waka Sarpras; Brigita wali VIIIA dan Waka Humas; Felindika wali IXA dan Bendahara BOS).",
+"Honor bimbel TKA: 10 guru, 86 pertemuan, total Rp5.860.000. Tarif Rp70.000 per pertemuan, tetapi Khoirul Hadi Rp50.000 tanpa penjelasan. Minggu ke-5 hanya 1 pertemuan atau 0.",
+"Integritas data: nomor urut presensi 9, 18, dan 22 hilang, dan nomor 6 pada rekap cuti hilang."],
+ch:[{k:"bar",t:"Keterlambatan guru SMP (kali)",hi:10,it:[["Winda Fifi",22],["Nurlila",16],["Muammar",16],["Quin",13],["Felindika",13],["Rani",7],["Eza",7],["Nurina",6],["Ramdan",4],["Brigita",3],["Sufyan",1]]},
+{k:"bar",t:"Hari cuti guru SMP",u:" hr",it:[["Muh. Afif",10],["Wildan",6],["Khoirul Hadi",4],["Sufyan",3],["Eza",3],["Winda",3],["Lainnya (8 guru)",14]]}],
+tl:["Panggil guru terlambat ≥10 kali.","Samakan presensi dengan rekap cuti.","Klarifikasi tarif honor Khoirul Hadi dan beban jabatan rangkap."]},
+{f:"REKAPITULASI_ABSENSI_GURU_BK_PESANTREN_DAN_SEKOLAH_BULAN_OKTOBER_2026.pdf",t:"Rekapitulasi Absensi Guru BK",u:"Bimbingan Konseling",tp:"Teks + foto jurnal",st:"warn",
+isi:"Rekap dua guru BK (Wisnu Ariska dan Muh. Afif) serta foto halaman jurnal bimbingan dan konseling yang disetorkan melalui bagian kepegawaian.",
+an:["Wisnu Ariska masuk 31 hari tanpa terlambat, sakit, izin, atau alpa; keterangan 'terlampir'.",
+"Muh. Afif tidak memiliki data kehadiran sama sekali (semua kolom kosong). Di rekap cuti SMP ia tercatat izin 10 hari (kepentingan pribadi), sehingga status kehadirannya perlu dipastikan.",
+"Jurnal bimbingan difoto dari buku tulisan tangan dengan entri hampir setiap hari 1–31 Oktober, memuat tanggal, nama siswa, layanan, dan hasil. Hasil yang terbaca umumnya berupa motivasi dan nasihat.",
+"Kualitas foto miring dan tulisan sulit dibaca, sehingga jenis masalah tidak dapat dianalisis atau dihitung."],
+ch:[{k:"bar",t:"Hari masuk (dari 31 hari)",it:[["Wisnu Ariska",31],["Muh. Afif",0]]}],
+tl:["Lengkapi data Muh. Afif.","Ubah jurnal menjadi formulir digital dengan kategori masalah agar tren dapat dianalisis."]},
+{f:"REKAPITULASI_ABSENSI_PEGAWAI_STRUKTURAL_PESANTREN_BULAN_OKTOBER_2026.pdf",t:"Rekapitulasi Absensi Pegawai Struktural",u:"Struktural",tp:"Teks + data ceklok",st:"warn",
+isi:"Lima pegawai struktural (4 GTY, 1 PTT) lengkap dengan data mesin ceklok dan tanda tangan Kepala Sub Bidang Kepegawaian.",
+an:["Total izin 17 hari: Gayatri 11 (berduka), Khoirul Hadi 3, Candra 2, Leoda 1 (sakit), Husni 0.",
+"Terlambat: Gayatri 5 kali dan Candra 4 kali. Kolom 'Telat' diisi 'Izin', sehingga keterlambatan itu tampaknya berizin.",
+"Data ceklok Candra menunjukkan jam datang sekitar 06.58–07.09 sehingga cukup disiplin. Izin Gayatri berblok pada 17–24 Okt.",
+"Tidak ada alpa dan tidak ada catatan tidak mengaji. Husni Abdul Basith (PTT) bersih.",
+"Catatan tata kelola: pengesah rekap, Candra Saputra, juga termasuk pegawai yang direkap sehingga perlu verifikasi independen."],
+ch:[{k:"bar",t:"Hari izin pegawai struktural",u:" hr",hi:10,it:[["Gayatri",11],["Khoirul Hadi",3],["Candra",2],["Leoda",1],["Husni",0]]},
+{k:"bar",t:"Keterlambatan (kali)",it:[["Gayatri",5],["Candra",4],["Lainnya",0]]}],
+tl:["Konfirmasi kebijakan telat berizin.","Minta Pimpinan atau atasan memverifikasi rekap milik Kepala Sub Bidang."]},
+{f:"4__Oktober_2026.pdf",t:"Laporan Waka Kurikulum MA Unggulan Al Azhar Muncar",u:"MA",tp:"Teks + foto",st:"bad",
+isi:"Sampul dan laporan Waka Kurikulum: presensi apel kedatangan guru MA (18 guru), rekap cuti (16 baris), honor kelas sore pusat, wali kelas (8 kelas), dan wakil bidang.",
+an:["Terlambat apel total 91 kali. Tertinggi Iramaya (24), Hamdy (18), Amzad (11), Mufidatul (8). Iramaya dan Hamdy juga merangkap Waka Humas dan Waka Sarpras.",
+"Cuti 30 hari dari 11 guru. Terpanjang Gayatri (11 hari, kontrol orang tua dan berduka), lalu Fina, Amzad, dan Siti (masing-masing 3).",
+"Catatan penting: tidak ada guru pengganti; guru piket hanya mengantar tugas tanpa mengganti mengajar, sehingga jam pelajaran dari 30 hari cuti tidak tergantikan.",
+"Inkonsistensi: cuti Siti Nur Ivada memuat 5 tanggal (12, 13, 16, 17, 19 Okt) tetapi jumlah tertulis 3. Kepala Madrasah (Fina) cuti kuliah 3 hari Sabtu.",
+"Honor kelas sore pusat: 6 guru, 44 pertemuan, total Rp3.080.000. Candra terbanyak (15 pertemuan, Rp1.050.000).",
+"Irfa' dan Basit tidak memiliki angka sendiri karena direkap oleh Ust. Candra."],
+ch:[{k:"bar",t:"Keterlambatan apel guru MA (kali)",hi:10,it:[["Iramaya",24],["Hamdy",18],["Amzad",11],["Mufidatul",8],["Candra",4],["Khoirul Huda",4],["Lainnya (9 guru)",22]]},
+{k:"bar",t:"Honor kelas sore pusat (ribu rupiah)",it:[["Candra",1050],["Iwan",700],["Hamdy",630],["Khoirul Huda",560],["Iramaya",70],["Mita",70]]}],
+tl:["Bina Iramaya, Hamdy, dan Amzad.","Susun mekanisme guru pengganti.","Perbaiki penulisan jumlah cuti."]},
+{f:"CEKLO_TPQ_BELAKANG_BULAN_OKTOBER_2026.pdf",t:"Ceklok TPQ Belakang",u:"TPQ",tp:"Data mesin ceklok (tanpa rekap)",st:"warn",
+isi:"Laporan 'Waktu Absen' dan 'Tabulasi' mesin ceklok 1–31 Oktober, memuat jam masuk dan pulang sekitar 12 guru TPQ.",
+an:["Pola jam: sesi pagi sekitar 07.15–09.10, sesi sore 15.00–17.10, dan sebagian guru sesi malam 19.00–19.30.",
+"Sebagian guru hanya hadir sesi sore (Lika, Dini, Aniq), sebagian pagi dan sore, dan sebagian lagi merangkap malam (Khisi, Ghozali, dan lain-lain).",
+"Beberapa kejadian tidak biasa: jam 21.09, 20.53, dan 19.27 pada akhir bulan, serta baris yang kosong (misalnya Ghozali) tanpa keterangan.",
+"Berkas tidak memuat rekap hadir, terlambat, atau alpa, sehingga belum dapat dinilai disiplin tiap guru.",
+"Nama guru dan jam tercampur dalam hasil ekstraksi PDF, sehingga angka per guru tidak dapat dipastikan."],
+tl:["Minta rekap per guru (hadir, telat, tidak ceklok) dari operator mesin.","Pastikan jadwal tiap sesi agar telat dapat dihitung."]},
+{f:"CEKLOK_LOUNDRY_BULAN_OKTOBER_2026.pdf",t:"Ceklok Guru TPQ dan Karyawan Laundry",u:"TPQ · Laundry",tp:"Data mesin ceklok + predikat",st:"bad",
+isi:"Daftar catatan 5 orang (3 guru TPQ dan 2 karyawan laundry) dengan jam masuk, jumlah terlambat, ketidakhadiran ceklok, serta predikat disiplin dan catatan status guru.",
+an:["Jam masuk umumnya 06.00–06.20; terlambat dicatat Lia (5), Iqbal (4), May (2), Adinda (1), Khisisay (0).",
+"Predikat: Khisisay dan Adinda 'Cukup/dipertimbangkan', Iqbal 'Cukup', sedangkan Lia dan May 'Buruk, tidak disarankan'.",
+"Kolom angka (19/7, 17/8, 15/6, 10/12, 21/3) tidak berlabel jelas; bila dibaca sebagai jumlah dan tidak ceklok, predikat tampak tidak konsisten (May 21/3 'Buruk', Iqbal 10/12 'Cukup').",
+"Predikat 'tidak disarankan' menyangkut status guru, sehingga perlu dasar data yang jelas sebelum dijadikan keputusan."],
+ch:[{k:"bar",t:"Keterlambatan (kali)",it:[["Lia Salma",5],["Iqbal Syahilla",4],["May Al Hanie",2],["Adinda",1],["Khisisay",0]]}],
+tl:["Jelaskan arti tiap kolom dan rumus predikat.","Verifikasi ulang angka sebelum dasar penilaian dipakai."]},
+{f:"CEKLOK_MDT_BULAN_OKTOBER_2026.pdf",t:"Ceklok MDT Al Azhar Muncar",u:"MDT",tp:"Data mesin ceklok",st:"warn",
+isi:"Laporan ceklok 1–31 Oktober untuk 36 nama staf MDT (jam malam, sebagian sore dan subuh).",
+an:["Hari tercatat terbanyak (perkiraan): Rahmah 25, Maqin 25, Nuriah 22, Basith 18 (subuh 04.3x–05.00), Mujib 14, Irsyad 13.",
+"Sodik (12) dan Jamsuri (12) serta Halim (11) hadir pada sesi malam sekitar 19.00; Halim dan Sodik kerap pulang tepat waktu.",
+"Ust. Amin dan Ust. Munif tercatat paling banyak sesi sore dan malam, dengan beberapa jam pulang lewat 23.30 hingga 00.32.",
+"Sekitar 16 nama (antara lain Lika, Tamara, Aniq, Dini, Hadi, Nafil, Ismail, Kiyai As'ad) tidak memiliki data jam, kemungkinan bertugas di unit lain atau tidak ceklok.",
+"Tidak ada rekap terlambat atau alpa, sehingga penilaian bersifat perkiraan dari pola jam."],
+ch:[{k:"bar",t:"Perkiraan hari hadir MDT",u:" hr",it:[["Rahmah",25],["Maqin",25],["Nuriah",22],["Basith",18],["Mujib",14],["Irsyad",13],["Sodik",12],["Jamsuri",12],["Halim",11]]}],
+tl:["Bedakan nama tanpa jadwal dan nama tidak ceklok.","Tinjau jam pulang malam yang melewati batas kerja."]},
+{f:"LAMPIRAN_CEKLIST_KEBERSIHAN_BULAN_OKTOBER_2026.pdf",t:"Ceklis Kebersihan dan Perlengkapan",u:"Kebersihan",tp:"Scan tulisan tangan",st:"warn",
+isi:"Tiga lembar ceklis pekerjaan bulan Oktober, jam kerja 07.30–16.00, supervisor Ust. Ja'far Sodiq: Pak Wahid (14 pekerjaan), Pak Lukman (8), dan Pak Lan (8).",
+an:["Total 30 jenis pekerjaan: 26 harian, 3 kondisional, 1 mingguan (tandon air).",
+"Pak Wahid: perawatan kamar mandi, aula, asrama, dan galon; catatan tangan: masuk 24, izin 2.",
+"Pak Lukman: pengambilan dan pembakaran sampah di asrama, aula, dapur, dan sekolah; catatan: masuk 23, libur 1, diganti 2.",
+"Pak Lan: perawatan taman (Ndalem, asrama putra, cashless, parkiran, Aliyah, TPQ) dan gedung SMP/Aliyah; catatan: masuk 26, libur 0.",
+"Angka catatan tangan sama dengan rekap absensi, jadi data konsisten.",
+"Kelemahan: tanda centang tidak seragam, tidak ada kolom paraf atau nilai mutu, sehingga ketuntasan tiap tugas tidak bisa dihitung."],
+ch:[{k:"don",t:"Jenis pekerjaan",it:[["Harian",26],["Kondisional",3],["Mingguan",1]]}],
+tl:["Tambahkan kolom paraf supervisor dan penilaian mutu mingguan."]},
+{f:"LAMPIRAN_DAPUR_BULAN_OKTOBER_2026.pdf",t:"Daftar Hadir dan Pemantauan Dapur",u:"Dapur",tp:"Scan tulisan tangan",st:"ok",
+isi:"Daftar hadir harian 1–31 Oktober Pak Amin dan Bu Anis dengan kolom aktivitas, kondisi lapangan, dan tanda tangan.",
+an:["Kedua petugas bertanda tangan setiap hari selama 31 hari (hadir 100%).",
+"Aktivitas (masak nasi, sayur, lauk) dan kondisi 'Lancar' ditulis lengkap hanya pada beberapa tanggal; hari lain memakai tanda ditto.",
+"Tidak ada masalah atau kendala yang dilaporkan sepanjang bulan.",
+"Formulir tidak mencatat jumlah porsi, menu, bahan, atau kebersihan, sehingga mutu layanan dapur tidak terpantau."],
+ch:[{k:"bar",t:"Hari hadir (dari 31)",it:[["Pak Amin",31],["Bu Anis",31]]}],
+tl:["Tambahkan kolom jumlah porsi dan kendala bahan."]},
+{f:"LAMPIRAN_SATPAM_BULAN_OKTOBER_2026.pdf",t:"Daftar Hadir Satpam dan Buku Ekspedisi",u:"Satuan Pengamanan",tp:"Scan tulisan tangan",st:"warn",
+isi:"Daftar hadir dan pemantauan kondisi lapangan satpam (Mas Riyan/Irsyad dan Pak Haqi) 1–31 Oktober, serta Buku Ekspedisi Barang/Paket 14–28 Oktober.",
+an:["Kedua petugas bertanda tangan setiap hari (31/31). Mas Riyan dicoret dan diganti Irsyad mulai 5 Oktober.",
+"Kondisi 'Aman' tertulis pada tanggal 1–19. Mulai 20 Oktober kolom kondisi kosong selama 12 hari meski tanda tangan tetap ada.",
+"Kegiatan hanya tercatat pada 6 hari, semuanya bersih-bersih (kolam, halaman, dan lainnya); selebihnya kosong atau ditto.",
+"Buku ekspedisi mencatat sekitar 60 paket dalam 15 hari, dengan kurir berulang (Wonco, Riki, Rangga, Sugeng, Ponco). Penyerahan umumnya beberapa menit setelah diterima.",
+"Kelemahan: kolom tanda tangan penerima akhir kosong pada baris yang terbaca; dua paket 16 Okt (untuk Basith dan Fina Kristina) tanpa waktu diserahkan; kondisi paket hanya angka 1, 2, 3 tanpa legenda."],
+ch:[{k:"bar",t:"Kondisi lapangan terisi (hari)",it:[["Tertulis 'Aman' (1–19 Okt)",19],["Kolom kosong (20–31 Okt)",12]]}],
+tl:["Wajibkan pengisian kondisi lapangan setiap hari.","Lengkapi tanda tangan penerima akhir dan legenda kondisi paket."]}
+];
+// ===== APLIKASI =====
+let STORE={};try{STORE=JSON.parse(localStorage.getItem("monev")||"{}")}catch(e){}
+STORE[OKT.key]=OKT;let cur=OKT.key;
+const $=i=>document.getElementById(i),rp=n=>"Rp "+n.toLocaleString("id-ID"),sum=(a,f)=>a.reduce((s,x)=>s+f(x),0);
+const PAL=["#12382f","#a8863a","#4f8a76","#b4540a","#6b7f9a","#a1262b"];
+function hb(it,u,hi){const m=Math.max(1,...it.map(x=>x[1]));return it.map(x=>`<div class="hb"><span>${x[0]}</span><div class="tr"><i style="width:${x[1]/m*100}%;background:${hi!=null&&x[1]>=hi?"var(--r)":"var(--g)"}"></i></div><b>${x[1]}${u||""}</b></div>`).join("")}
+function dn(it){const t=sum(it,x=>x[1])||1;let a=0;const g=it.map((x,i)=>{const s=a;a+=x[1]/t*100;return`${PAL[i%6]} ${s}% ${a}%`}).join(",");return`<div class="dw"><div class="dn" style="background:conic-gradient(${g})"></div><ul class="lg">${it.map((x,i)=>`<li><u style="background:${PAL[i%6]}"></u>${x[0]}: <b>${x[1]}</b></li>`).join("")}</ul></div>`}
+const fig=c=>`<figure><figcaption>${c.t}</figcaption>${c.k=="don"?dn(c.it):hb(c.it,c.u,c.hi)}</figure>`;
+function uniq(d){const m={};d.staff.forEach(s=>{const o=m[s[1]]||(m[s[1]]={n:s[1],t:0,c:0});o.t=Math.max(o.t,s[3]);o.c=Math.max(o.c,s[5])});return Object.values(m)}
+function sum2(d){const u=uniq(d),ng=d.nonguru;return{orang:u.length+ng.length,telat:sum(u,x=>x.t),izin:sum(u,x=>x.c)+sum(ng,x=>x[4]),hadir:sum(ng,x=>x[3])/sum(ng,x=>x[2])*100,honor:sum(d.honor,x=>x[3]),u}}
+function dl(n,t,c){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([c],{type:t}));a.download=n;a.click()}
+function dlJson(){dl("data-monev-"+cur+".json","application/json",JSON.stringify(STORE[cur],null,1))}
+function delta(a,b){if(b==null)return"";const d=a-b;return d?`<small class="${d>0?"up":"dn2"}">${d>0?"▲":"▼"} ${Math.abs(d)} dari bulan lalu</small>`:"<small>tetap</small>"}
+function docH(d,i){const S={ok:"Baik",warn:"Perlu perhatian",bad:"Perlu tindak lanjut"};
+return`<article class="doc" id="d${i}"><div class="dh"><span class="no">${i+1}</span><div><h3>${d.t}</h3><small>${d.f} · ${d.u} · ${d.tp}</small></div><span class="tag ${d.st}">${S[d.st]}</span></div>
+<p><b>Isi dokumen.</b> ${d.isi}</p><h4>Analisis</h4><ul>${d.an.map(x=>`<li>${x}</li>`).join("")}</ul>${(d.ch||[]).map(fig).join("")}<h4>Tindak lanjut</h4><ul>${d.tl.map(x=>`<li>${x}</li>`).join("")}</ul></article>`}
+function render(){
+ const d=STORE[cur],k=sum2(d),keys=Object.keys(STORE).sort(),pk=keys[keys.indexOf(cur)-1],pv=pk?sum2(STORE[pk]):null,docs=d.docs||[];
+ $("bln").innerHTML=keys.map(x=>`<option value="${x}"${x==cur?" selected":""}>${STORE[x].bulan}</option>`).join("");
+ const rank=k.u.filter(x=>x.t>0).sort((a,b)=>b.t-a.t),izl=k.u.filter(x=>x.c>0).sort((a,b)=>b.c-a.c),fl=rank.filter(x=>x.t>=10).map(x=>x.n);
+ const uT=["SMP","MA","Struktural"].map(u=>{const r=d.staff.filter(s=>s[0]==u);return[u,r.length,sum(r,s=>s[3]),sum(r,s=>s[5])]});
+ const ngU=[...new Set(d.nonguru.map(x=>x[0]))].map(u=>{const r=d.nonguru.filter(x=>x[0]==u);return[u,r.length,sum(r,x=>x[2]),sum(r,x=>x[3]),sum(r,x=>x[4]),sum(r,x=>x[5])]});
+ const m=d.media;
+ $("rpt").innerHTML=`
+<section><h2>Ringkasan Eksekutif – ${d.bulan}</h2><div class="kpi">
+<div><b>${k.orang}</b><small>Pegawai &amp; guru terpantau</small></div>
+<div><b>${k.telat}</b><small>Kejadian terlambat</small><br>${delta(k.telat,pv&&pv.telat)}</div>
+<div><b>${k.izin}</b><small>Hari izin/cuti</small><br>${delta(k.izin,pv&&pv.izin)}</div>
+<div><b>${k.hadir.toFixed(1)}%</b><small>Kehadiran staf non-guru</small></div>
+<div><b>${rp(k.honor)}</b><small>Honor bimbel &amp; kelas sore</small></div></div>
+<h4>Temuan utama</h4><ul>
+<li>Keterlambatan tertinggi: ${rank.slice(0,5).map(x=>x.n+" ("+x.t+"x)").join(", ")}; ${fl.length} orang mencapai ≥10 kali.</li>
+<li>Izin/cuti terpanjang: ${izl.slice(0,4).map(x=>x.n+" ("+x.c+" hari)").join(", ")}.</li>
+<li>Staf non-guru tanpa alpa atau sakit; Pak Wahid izin 2 hari dan 3x tidak ceklok.</li>
+<li>Satpam tercatat aman dan dapur lancar, namun kolom kondisi satpam kosong sejak 20 Oktober.</li>
+<li>Media &amp; IT: live rutin ${m.live} hari, ${m.event} siaran event, ${m.dok} dokumentasi video, ${m.desain} desain pamflet.</li></ul>
+<div class="g2"><figure><figcaption>Keterlambatan per unit (kali)</figcaption>${dn(uT.map(r=>[r[0],r[2]]))}</figure>
+<figure><figcaption>Hari izin/cuti per unit</figcaption>${dn(uT.map(r=>[r[0],r[3]]))}</figure></div>
+<div class="g2"><figure><figcaption>10 terlambat terbanyak (kali)</figcaption>${hb(rank.slice(0,10).map(x=>[x.n,x.t]),"",10)}</figure>
+<figure><figcaption>8 izin/cuti terpanjang (hari)</figcaption>${hb(izl.slice(0,8).map(x=>[x.n,x.c]),"",10)}</figure></div>
+<div class="tw"><table><tr><th>Unit pengajar/struktural</th><th class="n">Orang</th><th class="n">Telat</th><th class="n">Hari izin</th></tr>${uT.map(r=>`<tr><td>${r[0]}</td><td class="n">${r[1]}</td><td class="n">${r[2]}</td><td class="n">${r[3]}</td></tr>`).join("")}</table></div><br>
+<div class="tw"><table><tr><th>Unit non-guru</th><th class="n">Orang</th><th class="n">Hari kerja</th><th class="n">Hadir</th><th class="n">Izin</th><th class="n">Alpa</th></tr>${ngU.map(r=>`<tr><td>${r[0]}</td>${r.slice(1).map(v=>`<td class="n">${v}</td>`).join("")}</tr>`).join("")}</table></div>
+<p class="mut">Ambang status: terlambat ≥10 kali perlu pembinaan (merah). Orang dengan peran ganda dihitung sekali (nilai tertinggi).</p></section>
+${docs.length?`<section class="pb"><h2>Analisis per Berkas</h2><p class="toc">${docs.map((x,i)=>`<a href="#d${i}">${i+1}. ${x.t}</a>`).join("<br>")}</p><br>${docs.map(docH).join("")}</section>`:""}
+<section class="pb"><h2>Rekomendasi</h2><ol>
+<li>Pembinaan guru dengan keterlambatan ≥10 kali: ${fl.join(", ")||"tidak ada"}; evaluasi ulang bulan depan.</li>
+<li>Verifikasi izin panjang dan samakan rekap cuti dengan presensi; siapkan mekanisme guru pengganti.</li>
+<li>Ganti ceklis, buku tamu, dan absensi tulisan tangan dengan formulir digital seragam agar dapat diimpor tiap bulan.</li>
+<li>Gunakan satu nama baku per orang di semua unit dan lengkapi data ceklok yang kosong.</li></ol>
+<h2 style="margin-top:18px">Catatan Kualitas Data</h2><ul>${d.catatan.map(c=>`<li>${c}</li>`).join("")}</ul>
+<div class="sg"><div>Mengetahui,<br>Pimpinan<p>&nbsp;</p></div><div>Muncar, ${new Date().toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"})}<br>Kepala Sub Bidang Kepegawaian<p>Candra Saputra, S.H., S.Pd., Gr.</p></div></div></section>`;
+ $("per").textContent="Periode "+d.bulan;$("tgl").textContent=new Date().toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"})}
+$("bln").onchange=e=>{cur=e.target.value;render()};
+$("imp").onchange=e=>{const f=e.target.files[0];if(!f)return;f.text().then(t=>{try{const d=JSON.parse(t);if(!d.key||!d.staff)throw 0;STORE[d.key]=d;cur=d.key;try{localStorage.setItem("monev",JSON.stringify(STORE))}catch(x){}render()}catch(x){alert("File tidak valid. Gunakan JSON hasil 'Unduh data' sebagai templat.")}})};
+render();
+</script></body></html>
