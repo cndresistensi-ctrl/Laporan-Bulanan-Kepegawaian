@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@400;500&display=swap" rel="stylesheet">
+<style id="pgst"></style>
 <title>Monev Kepegawaian – PPM Al-Azhar Muncar</title>
 <style>
 :root{--ink:#1c2a26;--mut:#5f6d68;--g:#12382f;--g2:#e6eeea;--au:#a8863a;--w:#b4540a;--r:#a1262b;--line:#d9e0dc;--bg:#f3f6f4}
@@ -84,8 +85,20 @@ body.all .vw{break-before:page}body.all .vw[data-v="r"]{break-before:auto}}
 .doc table{font-size:9pt}.doc th,.doc td{padding:3px 6px}
 .doc .g2{gap:10px}
 section{margin-bottom:4mm}
-section.pb{break-before:auto;font-size:10.5pt;line-height:1.6;min-height:236mm;display:flex;flex-direction:column}section.pb .sg{margin-top:auto}section.pb li{margin:5px 0}.vw[data-v="r"] h2{break-after:avoid}.vw[data-v="r"] li,.vw[data-v="r"] .sg{break-inside:avoid}
+section.pb{font-size:10.5pt;line-height:1.6;min-height:236mm;display:flex;flex-direction:column}section.pb .sg{margin-top:auto}section.pb li{margin:5px 0}.vw[data-v="r"] h2{break-after:avoid}.vw[data-v="r"] li,.vw[data-v="r"] .sg{break-inside:avoid}
 .vw.raw .doc table{font-size:8pt}.vw.raw .doc th,.vw.raw .doc td{padding:1.5px 5px}.vw.raw .doc h4{margin:7px 0 2px}.vw.raw .doc .kp>img{width:48px;height:48px}.vw.raw .doc .jd{margin:5px 0 4px}
+}
+.tc{display:flex;gap:8px;align-items:baseline;padding:3px 0;font-size:14px}.tc i{flex:1;border-bottom:1px dotted #8a948f;transform:translateY(-3px)}.tc b{font-family:"Courier New",Courier,monospace;font-weight:700;color:var(--g)}.tc.sb{padding-left:16px;color:var(--ink)}.tc.hd{font-weight:700;color:var(--g);margin-top:6px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0}.sbar{display:flex;height:12px;border-radius:6px;overflow:hidden;margin:6px 0 2px}.sbar i{display:block}
+.ck{display:inline-block;width:13px;height:13px;border:1.3px solid var(--g);border-radius:2px;vertical-align:middle}
+.dm td,.dm th{vertical-align:top}.dm .c{text-align:center;width:46px}
+.tlt{font-size:12.5px}.tlt td,.tlt th{padding:5px 6px}
+@media print{
+.vw[data-v="r"] section.pgs{break-before:page}
+.vw[data-v="r"] section.toc{min-height:230mm;font-size:10pt;line-height:1.5}.toc .tc{padding:2px 0}.toc h2{margin-bottom:8px}
+.vw[data-v="r"] section.pgs.pm{min-height:236mm;font-size:11.5pt;line-height:1.65}.pm li{margin:7px 0}.pm td,.pm th{padding:8px 8px}.pm .kpi b{font-size:26px}.pm .kpi div{padding:14px 12px}.pm .sbar{height:16px}.pm h4{margin-top:20px}
+.tc{font-size:10.5pt}.tlt{font-size:8.5pt}.tlt td,.tlt th{padding:3px 5px}.tlt tr{break-inside:avoid}
+section.pb{break-before:page}
 }
 </style></head><body>
 <div class="cover" id="cover"><svg class="cvs" viewBox="0 0 924 1308" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
@@ -305,6 +318,11 @@ an:["Kedua petugas bertanda tangan setiap hari (31/31). Mas Riyan dicoret dan di
 ch:[{k:"bar",t:"Kondisi lapangan terisi (hari)",it:[["Tertulis 'Aman' (1–19 Okt)",19],["Kolom kosong (20–31 Okt)",12]]}],
 tl:["Wajibkan pengisian kondisi lapangan setiap hari.","Lengkapi tanda tangan penerima akhir dan legenda kondisi paket."]}
 ];
+OKT.pimp={temuan:[
+"MA belum memiliki guru pengganti: 30 hari cuti tidak tergantikan, sehingga jam pelajaran hilang.",
+"Pak Wahid datang setelah 07.30 pada 19 dari 21 hari tercatat, dan Pak Lukman tidak memiliki data ceklok sama sekali.",
+"Kolom kondisi lapangan satpam kosong sejak 20 Oktober (12 hari) meski tanda tangan tetap ada.",
+"Data belum sepenuhnya dapat dipertanggungjawabkan: Muh. Afif tanpa data hadir, dan rekap cuti SMP tidak sama dengan presensi."]};
 const META=[
 ["Divisi Media & IT","Tim Media & IT"],
 ["Sub Bidang Kepegawaian – Karyawan Kebersihan, Satpam, dan Dapur","Ust. Ja'far Sodiq (Kebersihan), Candra Saputra (Satpam), Pak Amin (Dapur)"],
@@ -394,8 +412,36 @@ function render(){
  const uT=["SMP","MA","Struktural"].map(u=>{const r=d.staff.filter(s=>s[0]==u);return[u,r.length,sum(r,s=>s[3]),sum(r,s=>s[5])]});
  const ngU=[...new Set(d.nonguru.map(x=>x[0]))].map(u=>{const r=d.nonguru.filter(x=>x[0]==u);return[u,r.length,sum(r,x=>x[2]),sum(r,x=>x[3]),sum(r,x=>x[4]),sum(r,x=>x[5])]});
  const m=d.media;
- $("rpt").innerHTML=`<div class="vw" data-v="r">
-<section><h2>Ringkasan Eksekutif – ${d.bulan}</h2><div class="kpi">
+const cnt={ok:0,warn:0,bad:0};docs.forEach(x=>cnt[x.st]++);
+ const PG={tl:6,rek:8,b0:9};
+ const toc=[["Daftar Isi, Dasar dan Metode",2,0],["Ringkasan untuk Pimpinan",3,0],["Ringkasan Eksekutif dan Daftar Berkas",4,0],["Tabel Tindak Lanjut",PG.tl,0],["Rekomendasi dan Catatan Kualitas Data",PG.rek,0],["ANALISIS PER BERKAS",null,1],...docs.map((x,i)=>["Berkas "+(i+1)+" – "+x.t,PG.b0+2*i,2]),["Lampiran Data Mentah Awal",PG.b0+2*docs.length,0]];
+ const tocH=toc.map(r=>r[2]==1?`<div class="tc hd"><span>${r[0]}</span></div>`:`<div class="tc${r[2]==2?" sb":""}"><span>${r[0]}</span><i></i><b>${r[1]}</b></div>`).join("");
+ const pm=d.pimp||{},nov=new Date(+d.key.slice(0,4),+d.key.slice(5,7),0),fmt=x=>x.toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"}),addD=n=>new Date(nov.getTime()+n*864e5).toLocaleDateString("id-ID",{day:"numeric",month:"short",year:"numeric"});
+ const temuan=[`Keterlambatan ${k.telat} kejadian; ${fl.length} orang mencapai ≥10 kali (${fl.join(", ")||"tidak ada"}).`,izl.length?`Izin/cuti ${k.izin} hari; terpanjang ${izl[0].n} (${izl[0].c} hari).`:"Tidak ada izin/cuti tercatat.",...(pm.temuan||[])].slice(0,6);
+ const keputusan=[`Pembinaan guru dengan keterlambatan ≥10 kali (${fl.length} orang) dan evaluasi ulang bulan depan.`,"Menetapkan mekanisme guru pengganti saat guru cuti, terutama di MA.","Menugaskan Sub Bidang Kepegawaian menuntaskan klarifikasi data yang masih menggantung sebelum batas waktu tindak lanjut.","Menyetujui peralihan ceklis, buku tamu, dan absensi tulisan tangan ke formulir digital seragam."];
+ const tot=docs.length||1,sb=["ok","warn","bad"].map(c=>`<i style="width:${cnt[c]/tot*100}%;background:${c=="ok"?"var(--g)":c=="warn"?"var(--w)":"var(--r)"}"></i>`).join("");
+ const front=`<section class="toc"><h2>Daftar Isi</h2>${tocH}
+<h2 style="margin-top:22px">Dasar dan Metode</h2><ul>
+<li><b>Sumber data:</b> ${docs.length} berkas PDF yang diserahkan unit ke Sub Bidang Kepegawaian untuk periode ${d.bulan} (daftar lengkap di Lampiran Data Mentah).</li>
+<li><b>Pengolahan:</b> data diekstrak dari PDF. Berkas berupa scan atau tulisan tangan hanya sebagian yang dapat dihitung otomatis; angka berlabel “perkiraan” berasal dari pola jam ceklok.</li>
+<li><b>Penghitungan orang:</b> pegawai yang tercatat di beberapa unit dihitung satu kali dengan nilai tertinggi.</li>
+<li><b>Ambang pembinaan:</b> keterlambatan ≥10 kali dalam satu bulan ditandai merah dan diusulkan untuk pembinaan.</li>
+<li><b>Status berkas:</b> <span class="tag ok">Baik</span> data lengkap dan konsisten; <span class="tag warn">Perlu perhatian</span> ada data kurang atau perlu klarifikasi; <span class="tag bad">Perlu tindak lanjut</span> ada pelanggaran atau ketidaksesuaian yang butuh keputusan.</li>
+<li><b>Sifat dokumen:</b> memuat data kedisiplinan perorangan; hanya untuk Pimpinan dan Sub Bidang Kepegawaian.</li></ul></section>
+<section class="pgs pm"><h2>Ringkasan untuk Pimpinan – ${d.bulan}</h2>
+<p class="mut" style="margin:0 0 10px">Apa yang terjadi, seberapa serius, dan apa yang perlu diputuskan.</p>
+<div class="kpi"><div><b>${k.telat}</b><small>Kejadian terlambat</small></div><div><b>${k.izin}</b><small>Hari izin/cuti</small></div><div><b>${k.hadir.toFixed(1)}%</b><small>Kehadiran staf non-guru</small></div><div><b>${cnt.bad}</b><small>Berkas perlu tindak lanjut</small></div></div>
+<h4>STATUS ${docs.length} BERKAS</h4><div class="chips"><span class="tag ok">${cnt.ok} Baik</span><span class="tag warn">${cnt.warn} Perlu perhatian</span><span class="tag bad">${cnt.bad} Perlu tindak lanjut</span></div><div class="sbar">${sb}</div>
+<h4>TEMUAN UTAMA</h4><ol>${temuan.map(t=>`<li>${t}</li>`).join("")}</ol>
+<h4>KEPUTUSAN YANG DIMINTA DARI PIMPINAN</h4>
+<div class="tw"><table class="dm"><tr><th>No</th><th>Keputusan</th><th class="c">Setuju</th><th class="c">Tunda</th></tr>${keputusan.map((t,i)=>`<tr><td>${i+1}</td><td>${t}</td><td class="c"><span class="ck"></span></td><td class="c"><span class="ck"></span></td></tr>`).join("")}</table></div>
+<p class="mut" style="margin-top:8px;font-size:.9em">Catatan Pimpinan: ____________________________________________________________</p></section>`;
+ const tlr=[];docs.forEach(x=>x.tl.forEach(t=>tlr.push([x,t])));
+ const PRI={bad:["Tinggi",14],warn:["Sedang",30],ok:["Rendah",30]};
+ const tlSec=`<section class="pgs"><h2>Tabel Tindak Lanjut</h2><p class="mut" style="margin:0 0 8px">${tlr.length} tindak lanjut dari ${docs.length} berkas. Batas waktu dihitung dari akhir periode (${fmt(nov)}): prioritas tinggi 14 hari, lainnya 30 hari.</p>
+<div class="tw"><table class="tlt"><tr><th>No</th><th>Berkas</th><th>Tindak lanjut</th><th>Penanggung jawab</th><th>Prioritas</th><th>Batas waktu</th><th>Status</th></tr>${tlr.map((r,i)=>`<tr><td>${i+1}</td><td>${r[0].u}</td><td>${r[1]}</td><td>${/Belum tercantum/.test(r[0].pj)?"Ditetapkan Kepala Sub Bidang":r[0].pj}</td><td><span class="tag ${r[0].st}">${PRI[r[0].st][0]}</span></td><td>${addD(PRI[r[0].st][1])}</td><td style="white-space:nowrap"><span class="ck"></span> Belum</td></tr>`).join("")}</table></div></section>`;
+ let pst=document.getElementById("pgst");document.head.appendChild(pst);pst.textContent='@page{size:A4;margin:16mm 14mm 18mm;@bottom-left{content:"RAHASIA · Hanya untuk Pimpinan · Laporan Monev Kepegawaian PPM Al-Azhar Muncar · '+d.bulan+'";font:8.5pt "Times New Roman";color:#777}@bottom-right{content:"Halaman " counter(page);font:8.5pt "Times New Roman";color:#777}}@page cover{margin:0;@bottom-left{content:none}@bottom-right{content:none}}';
+ $("rpt").innerHTML=`<div class="vw" data-v="r">${front}<section class="pgs"><h2>Ringkasan Eksekutif – ${d.bulan}</h2><div class="kpi">
 <div><b>${k.orang}</b><small>Pegawai &amp; guru terpantau</small></div>
 <div><b>${k.telat}</b><small>Kejadian terlambat</small><br>${delta(k.telat,pv&&pv.telat)}</div>
 <div><b>${k.izin}</b><small>Hari izin/cuti</small><br>${delta(k.izin,pv&&pv.izin)}</div>
@@ -415,7 +461,7 @@ function render(){
 <div class="tw"><table><tr><th>Unit non-guru</th><th class="n">Orang</th><th class="n">Hari kerja</th><th class="n">Hadir</th><th class="n">Izin</th><th class="n">Alpa</th></tr>${ngU.map(r=>`<tr><td>${r[0]}</td>${r.slice(1).map(v=>`<td class="n">${v}</td>`).join("")}</tr>`).join("")}</table></div>
 <p class="mut">Ambang status: terlambat ≥10 kali perlu pembinaan (merah). Orang dengan peran ganda dihitung sekali (nilai tertinggi).</p></section>
 <section><h2>Daftar Berkas dan Status</h2><div class="tw"><table><tr><th>No</th><th>Berkas</th><th>Lembaga</th><th>Status</th><th>Pengesahan</th></tr>${docs.map((x,i)=>`<tr><td>${i+1}</td><td><a href="#" onclick="return goto(${i})">${x.t}</a></td><td>${x.u}</td><td><span class="tag ${x.st}">${SS[x.st]}</span></td><td>${SG[cur+"-"+i]?"Sudah":"Menunggu"}</td></tr>`).join("")}</table></div></section>
-<section class="pb"><h2>Rekomendasi</h2><ol>
+${tlSec}<section class="pb"><h2>Rekomendasi</h2><ol>
 <li>Pembinaan guru dengan keterlambatan ≥10 kali: ${fl.join(", ")||"tidak ada"}; evaluasi ulang bulan depan.</li>
 <li>Verifikasi izin panjang dan samakan rekap cuti dengan presensi; siapkan mekanisme guru pengganti.</li>
 <li>Ganti ceklis, buku tamu, dan absensi tulisan tangan dengan formulir digital seragam agar dapat diimpor tiap bulan.</li>
