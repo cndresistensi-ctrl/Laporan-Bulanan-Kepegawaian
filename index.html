@@ -68,6 +68,25 @@ body.all .vw.raw{display:block}
 main{padding:0;max-width:none}section{border:0;padding:0;margin:0 0 6mm}h2{break-after:avoid;margin-top:2mm}
 section.pb{break-before:page}.doc{box-shadow:none;border:0;padding:0;max-width:none;margin:0}.pgB{break-before:page;border:0;margin:0;padding:0}.dh{break-after:avoid}figure{break-inside:avoid}.sg{break-inside:avoid}
 body.all .vw{break-before:page}body.all .vw[data-v="r"]{break-before:auto}}
+/* ===== Cetak: tiap lembar tepat 1 halaman, terisi penuh ===== */
+@media print{
+.doc{font-size:9.5pt;line-height:1.42}
+.doc .pgA,.doc .pgB{min-height:256mm;display:flex;flex-direction:column}
+.doc .pgA>.pn{margin-top:auto;padding-top:6px}
+.doc .pgB>.sg{margin-top:auto}.doc .pgB>.pn{margin-top:8px}
+.doc .sg p{margin-top:46px}.doc .nt{margin-top:10px}
+.doc .kp>img{width:58px;height:58px}.doc .kp b{font-size:15pt}.doc .kp small{font-size:8pt}
+.doc .jd{margin:8px 0 6px;font-size:12pt}
+.doc .mt{font-size:9pt;padding:6px 10px;line-height:1.5}
+.doc .dk{margin:8px 0}.doc .dk b{font-size:16px}.doc .dk small{font-size:9pt}
+.doc li{margin:2px 0}.doc h4{margin:9px 0 3px}
+.doc figure{margin:8px 0;padding:8px}.doc .hb{margin:2px 0;font-size:9pt}
+.doc table{font-size:9pt}.doc th,.doc td{padding:3px 6px}
+.doc .g2{gap:10px}
+section{margin-bottom:4mm}
+section.pb{break-before:auto;font-size:10.5pt;line-height:1.6;min-height:236mm;display:flex;flex-direction:column}section.pb .sg{margin-top:auto}section.pb li{margin:5px 0}.vw[data-v="r"] h2{break-after:avoid}.vw[data-v="r"] li,.vw[data-v="r"] .sg{break-inside:avoid}
+.vw.raw .doc table{font-size:8pt}.vw.raw .doc th,.vw.raw .doc td{padding:1.5px 5px}.vw.raw .doc h4{margin:7px 0 2px}.vw.raw .doc .kp>img{width:48px;height:48px}.vw.raw .doc .jd{margin:5px 0 4px}
+}
 </style></head><body>
 <div class="cover" id="cover"><svg class="cvs" viewBox="0 0 924 1308" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
 <defs>
