@@ -96,11 +96,13 @@ section.pb{font-size:10.5pt;line-height:1.6;min-height:236mm;display:flex;flex-d
 @media print{
 .vw[data-v="r"] section.pgs{break-before:page}
 .vw[data-v="r"] section.toc{min-height:200mm;margin-bottom:0;font-size:10pt;line-height:1.5}.toc .tc{padding:2px 0}.toc h2{margin-bottom:8px}
-.vw[data-v="r"] section.pgs.pm{min-height:236mm;font-size:11.5pt;line-height:1.65}.pm li{margin:7px 0}.pm td,.pm th{padding:8px 8px}.pm .kpi b{font-size:26px}.pm .kpi div{padding:14px 12px}.pm .sbar{height:16px}.pm h4{margin-top:20px}
+.vw[data-v="r"] section.pgs.pm{min-height:236mm;font-size:10.5pt;line-height:1.5}.pm li{margin:3px 0}.pm td,.pm th{padding:8px 8px}.pm .kpi b{font-size:26px}.pm .kpi div{padding:9px 12px}.pm .sbar{height:16px}.pm h4{margin-top:12px}
 .tc{font-size:10.5pt}.tlt{font-size:8.5pt}.tlt td,.tlt th{padding:3px 5px}.tlt tr{break-inside:avoid}
 section.pb{break-before:page}
 #padm{display:none!important}
 }
+.sg.s3{font-size:.92em;gap:12px;margin-top:10px}.sg.s3 p{margin-top:54px}.sg.s3 .stp{height:56px;margin-left:-70px}.sg.s3 .ttd{height:50px}
+@media print{.pm .sg{break-inside:avoid}}
 </style></head><body>
 <div class="cover" id="cover"><svg class="cvs" viewBox="0 0 924 1308" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
 <defs>
@@ -140,7 +142,7 @@ section.pb{break-before:page}
 <path d="M105 1308C120 1248 165 1214 235 1212H924V1308Z" fill="url(#gT)"/>
 <path d="M440 1214C452 1204 472 1200 505 1200H924V1214Z" fill="url(#gY)"/>
 <path d="M0 1308V1276C0 1262 22 1255 62 1255H330C402 1255 442 1280 432 1308Z" fill="url(#gY)"/>
-<text class="p" x="795" y="1272" font-size="26" fill="#fff" text-anchor="end" letter-spacing="2">www.alazharmuncar.ponpes.id</text>
+<text class="p" x="795" y="1272" font-size="26" fill="#fff" text-anchor="end" letter-spacing="2">www.alazharmuncar.org</text>
 <circle cx="838" cy="1262" r="21" fill="#fbb810"/><g fill="none" stroke="#fff" stroke-width="2"><circle cx="838" cy="1262" r="12"/><ellipse cx="838" cy="1262" rx="5" ry="12"/><path d="M826 1262H850M838 1250V1274"/></g>
 </svg></div>
 <main>
@@ -483,13 +485,14 @@ function render(){
  const ngU=[...new Set(d.nonguru.map(x=>x[0]))].map(u=>{const r=d.nonguru.filter(x=>x[0]==u);return[u,r.length,sum(r,x=>x[2]),sum(r,x=>x[3]),sum(r,x=>x[4]),sum(r,x=>x[5])]});
  const m=d.media;
 const cnt={ok:0,warn:0,bad:0};docs.forEach(x=>cnt[x.st]++);
- const PG={tl:6,rek:8,b0:9};
- const toc=[["Daftar Isi, Dasar dan Metode",2,0],["Ringkasan untuk Pimpinan",3,0],["Ringkasan Eksekutif dan Daftar Berkas",4,0],["Tabel Tindak Lanjut",PG.tl,0],["Rekomendasi dan Catatan Kualitas Data",PG.rek,0],["ANALISIS PER BERKAS",null,1],...docs.map((x,i)=>["Berkas "+(i+1)+" – "+x.t,PG.b0+2*i,2]),["Lampiran Data Mentah Awal",PG.b0+2*docs.length,0]];
- const tocH=toc.map(r=>r[2]==1?`<div class="tc hd"><span>${r[0]}</span></div>`:`<div class="tc${r[2]==2?" sb":""}"><span>${r[0]}</span><i></i><b>${r[1]}</b></div>`).join("");
+ const nb=i=>"MONEV/"+cur.slice(5)+"-"+cur.slice(0,4)+"/"+String(i+1).padStart(2,"0");
+ const toc=[["Daftar Isi, Dasar dan Metode","",0],["Ringkasan untuk Pimpinan","",0],["Ringkasan Eksekutif dan Daftar Berkas","",0],["Tabel Tindak Lanjut","",0],["Rekomendasi dan Catatan Kualitas Data","",0],["ANALISIS PER BERKAS","",1],...docs.map((x,i)=>["Berkas "+(i+1)+" – "+x.t,nb(i),2]),["Lampiran Data Mentah Awal","",0]];
+ const tocH=toc.map(r=>r[2]==1?`<div class="tc hd"><span>${r[0]}</span></div>`:`<div class="tc${r[2]==2?" sb":""}"><span>${r[0]}</span>${r[1]?`<i></i><b>${r[1]}</b>`:""}</div>`).join("");
  const pm=d.pimp||{},nov=new Date(+d.key.slice(0,4),+d.key.slice(5,7),0),fmt=x=>x.toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"}),addD=n=>new Date(nov.getTime()+n*864e5).toLocaleDateString("id-ID",{day:"numeric",month:"short",year:"numeric"});
  const temuan=[`Keterlambatan ${k.telat} kejadian; ${fl.length} orang mencapai ≥10 kali (${fl.join(", ")||"tidak ada"}).`,izl.length?`Izin/cuti ${k.izin} hari; terpanjang ${izl[0].n} (${izl[0].c} hari).`:"Tidak ada izin/cuti tercatat.",...(pm.temuan||[])].slice(0,6);
  const keputusan=[`Pembinaan guru dengan keterlambatan ≥10 kali (${fl.length} orang) dan evaluasi ulang bulan depan.`,"Menetapkan mekanisme guru pengganti saat guru cuti, terutama di MA.","Menugaskan Sub Bidang Kepegawaian menuntaskan klarifikasi data yang masih menggantung sebelum batas waktu tindak lanjut.","Menyetujui peralihan ceklis, buku tamu, dan absensi tulisan tangan ke formulir digital seragam."];
  const tot=docs.length||1,sb=["ok","warn","bad"].map(c=>`<i style="width:${cnt[c]/tot*100}%;background:${c=="ok"?"var(--g)":c=="warn"?"var(--w)":"var(--r)"}"></i>`).join("");
+ const blk=`<h4>PENGESAHAN LAPORAN</h4><div class="sg s3"><div>Disusun oleh,<br>Kepala Sub Bidang Kepegawaian<p>${STP?`<img class="stp" src="${STP}" alt="">`:""}${TTD?`<img class="ttd" src="${TTD}" alt="">`:""}Candra Saputra, S.H., S.Pd., Gr.<br><span class="nipy">NIPY. 180907881009</span></p></div><div>Diperiksa oleh,<br>(pemeriksa independen)<p>( ................................ )<br><span class="nipy">Jabatan: ........................</span></p></div><div>Disetujui oleh,<br>Pimpinan dan Pengasuh<p>KH. Abdillah As'ad, Lc, M.Pd</p></div></div>`;
  const front=`<section class="toc"><h2>Daftar Isi</h2>${tocH}
 <h2 style="margin-top:22px">Dasar dan Metode</h2><ul>
 <li><b>Sumber data:</b> ${docs.length} berkas PDF yang diserahkan unit ke Sub Bidang Kepegawaian untuk periode ${d.bulan} (daftar lengkap di Lampiran Data Mentah).</li>
@@ -497,6 +500,7 @@ const cnt={ok:0,warn:0,bad:0};docs.forEach(x=>cnt[x.st]++);
 <li><b>Penghitungan orang:</b> pegawai yang tercatat di beberapa unit dihitung satu kali dengan nilai tertinggi.</li>
 <li><b>Ambang pembinaan:</b> keterlambatan ≥10 kali dalam satu bulan ditandai merah dan diusulkan untuk pembinaan.</li>
 <li><b>Status berkas:</b> <span class="tag ok">Baik</span> data lengkap dan konsisten; <span class="tag warn">Perlu perhatian</span> ada data kurang atau perlu klarifikasi; <span class="tag bad">Perlu tindak lanjut</span> ada pelanggaran atau ketidaksesuaian yang butuh keputusan.</li>
+<li><b>Status temuan:</b> temuan bersifat awal dan masih menunggu klarifikasi unit terkait. Temuan yang datanya belum lengkap atau belum konsisten (lihat Catatan Kualitas Data) tidak boleh dijadikan dasar sanksi atau penilaian kinerja sebelum diverifikasi.</li>
 <li><b>Sifat dokumen:</b> memuat data kedisiplinan perorangan; hanya untuk Pimpinan dan Sub Bidang Kepegawaian.</li></ul>
 <h2 style="margin-top:18px">Riwayat Revisi</h2><div class="tw"><table><tr><th>Versi</th><th>Tanggal</th><th>Perubahan</th><th>Oleh</th></tr>${(d.rev||[["1.0",TGL,"Penyusunan awal laporan "+d.bulan,"Sub Bidang Kepegawaian"]]).map(r=>`<tr>${r.map(v=>`<td>${v}</td>`).join("")}</tr>`).join("")}<tr><td>&nbsp;</td><td></td><td></td><td></td></tr></table></div></section>
 <section class="pgs pm"><h2>Ringkasan untuk Pimpinan – ${d.bulan}</h2>
@@ -504,9 +508,10 @@ const cnt={ok:0,warn:0,bad:0};docs.forEach(x=>cnt[x.st]++);
 <div class="kpi"><div><b>${k.telat}</b><small>Kejadian terlambat</small></div><div><b>${k.izin}</b><small>Hari izin/cuti</small></div><div><b>${k.hadir.toFixed(1)}%</b><small>Kehadiran staf non-guru</small></div><div><b>${cnt.bad}</b><small>Berkas perlu tindak lanjut</small></div></div>
 <h4>STATUS ${docs.length} BERKAS</h4><div class="chips"><span class="tag ok">${cnt.ok} Baik</span><span class="tag warn">${cnt.warn} Perlu perhatian</span><span class="tag bad">${cnt.bad} Perlu tindak lanjut</span></div><div class="sbar">${sb}</div>
 <h4>TEMUAN UTAMA</h4><ol>${temuan.map(t=>`<li>${t}</li>`).join("")}</ol>
+<p class="mut" style="margin:6px 0 0;font-size:.9em"><i>Catatan: temuan di atas bersifat awal dan menunggu klarifikasi unit; belum menjadi dasar sanksi.</i></p>
 <h4>KEPUTUSAN YANG DIMINTA DARI PIMPINAN</h4>
 <div class="tw"><table class="dm"><tr><th>No</th><th>Keputusan</th><th class="c">Setuju</th><th class="c">Tunda</th></tr>${keputusan.map((t,i)=>`<tr><td>${i+1}</td><td>${t}</td><td class="c"><span class="ck"></span></td><td class="c"><span class="ck"></span></td></tr>`).join("")}</table></div>
-<p class="mut" style="margin-top:8px;font-size:.9em">Catatan Pimpinan: ____________________________________________________________</p></section>`;
+<p class="mut" style="margin-top:8px;font-size:.9em">Catatan Pimpinan: ____________________________________________________________</p>${blk}</section>`;
  const tlr=[];docs.forEach(x=>x.tl.forEach(t=>tlr.push([x,t])));
  const PRI={bad:["Tinggi",14],warn:["Sedang",30],ok:["Rendah",30]};
  const tlSec=`<section class="pgs"><h2>Tabel Tindak Lanjut</h2><p class="mut" style="margin:0 0 8px">${tlr.length} tindak lanjut dari ${docs.length} berkas. Batas waktu dihitung dari akhir periode (${fmt(nov)}): prioritas tinggi 14 hari, lainnya 30 hari.</p>
