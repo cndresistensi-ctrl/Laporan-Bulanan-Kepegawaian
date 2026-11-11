@@ -153,7 +153,7 @@ section.pb{break-before:page}
 <button id="sb" onclick="toggleSign()">Tandai sudah ditandatangani</button>
 <label class="mut">Logo: <input type="file" id="lgo" accept="image/*"></label>
 <button onclick="dlJson()">Unduh data (JSON)</button>
-<label class="mut">Impor bulan baru: <input type="file" id="imp" accept=".json"></label>
+<label class="mut">Impor bulan baru (.xlsx templat / .json): <input type="file" id="imp" accept=".json,.xlsx,.xls" multiple></label>
 </div>
 <div class="bar noprint">
 <button class="p" onclick="printAll(true)">Cetak SEMUA – tanpa nama</button>
@@ -174,6 +174,7 @@ section.pb{break-before:page}
 <button class="p" onclick="padSave()">Simpan sebagai TTD</button>
 <button onclick="padClear()">Ulangi</button>
 <button onclick="padClose()">Batal</button></div></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 // ===== DATA OKTOBER 2026 (diekstrak dari PDF) =====
 // staff: [unit, nama, JP, telat, izin(presensi), hari izin/cuti, keterangan]
@@ -383,7 +384,7 @@ function hb(it,u,hi){const m=Math.max(1,...it.map(x=>x[1]));return it.map(x=>`<d
 function dn(it){const t=sum(it,x=>x[1])||1;let a=0;const g=it.map((x,i)=>{const s=a;a+=x[1]/t*100;return`${PAL[i%6]} ${s}% ${a}%`}).join(",");return`<div class="dw"><div class="dn" style="background:conic-gradient(${g})"></div><ul class="lg">${it.map((x,i)=>`<li><u style="background:${PAL[i%6]}"></u>${x[0]}: <b>${x[1]}</b></li>`).join("")}</ul></div>`}
 const fig=c=>`<figure><figcaption>${c.t}</figcaption>${c.k=="don"?dn(c.it):hb(c.it,c.u,c.hi)}</figure>`;
 function uniq(d){const m={};d.staff.forEach(s=>{const o=m[s[1]]||(m[s[1]]={n:s[1],t:0,c:0});o.t=Math.max(o.t,s[3]);o.c=Math.max(o.c,s[5])});return Object.values(m)}
-function sum2(d){const u=uniq(d),ng=d.nonguru;return{orang:u.length+ng.length,telat:sum(u,x=>x.t),izin:sum(u,x=>x.c)+sum(ng,x=>x[4]),hadir:sum(ng,x=>x[3])/sum(ng,x=>x[2])*100,honor:sum(d.honor,x=>x[3]),u}}
+function sum2(d){const u=uniq(d),ng=d.nonguru;return{orang:u.length+ng.length,telat:sum(u,x=>x.t),izin:sum(u,x=>x.c)+sum(ng,x=>x[4]),hadir:sum(ng,x=>x[2])?sum(ng,x=>x[3])/sum(ng,x=>x[2])*100:0,honor:sum(d.honor,x=>x[3]),u}}
 function dl(n,t,c){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([c],{type:t}));a.download=n;a.click()}
 function dlJson(){dl("data-monev-"+cur+".json","application/json",JSON.stringify(STORE[cur],null,1))}
 function delta(a,b){if(b==null)return"";const d=a-b;return d?`<small class="${d>0?"up":"dn2"}">${d>0?"▲":"▼"} ${Math.abs(d)} dari bulan lalu</small>`:"<small>tetap</small>"}
@@ -448,6 +449,93 @@ function anonymize(on){if(!ANMAP)buildAnon();const root=$("rpt");
  nodes.forEach(n=>{const t=n.nodeValue,r=t.replace(ANMAP.re,(m,a)=>ANMAP.map[a]||m);if(r!==t){ORIG.set(n,t);n.nodeValue=r}});
  $("anon").setAttribute("visibility","visible")}
 function dlKey(){if(!ANMAP)buildAnon();dl("kunci-kode-nama-"+cur+".csv","text/csv","Kode,Nama\n"+ANMAP.list.map(c=>ANMAP.code[c]+',"'+c+'"').join("\n"))}
+// ===== Impor templat xlsx =====
+const BLN=["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+const SHEETS=["Meta","Daftar_Nama","SMP_Presensi","SMP_Cuti","SMP_WaliKelas","SMP_Waka","SMP_Honor","MA_Presensi","MA_Cuti","MA_WaliKelas","MA_Waka","MA_KelasSore","Presensi","NonGuru","Honor","Media","Catatan_Unit"];
+const normN=s=>String(s==null?"":s).replace(/[’‘`]/g,"'").replace(/\s+/g," ").trim();
+const HON=/^(?:(?:ustdzh|ustdz|ustadzah|ustadz|ustad|ustd|ustz|ust|hj|h|pak|bu|kang|mas)(?:\.\s*|\s+))+/i;
+const cleanN=s=>normN(s).replace(/\s+\./g,".").replace(/\s*\(.*?\)\s*/g," ").replace(/,.*$/,"").replace(HON,"").replace(/\s+/g," ").trim();
+const keyN=s=>cleanN(s).toLowerCase();
+const isEx=s=>/^contoh/i.test(normN(s));
+const toN=v=>{if(v===""||v==null)return 0;const t=String(v).trim();if(/^[-–—]+$/.test(t))return 0;const n=Number(t.replace(",","."));return isNaN(n)?NaN:n};
+function countDates(t){const s=String(t||"").replace(/(januari|februari|maret|april|mei|juni|juli|agustus|september|oktober|november|desember)/gi,"").replace(/\b(19|20)\d{2}\b/g,"").replace(/[✓•]/g,"");let n=0;
+ s.split(/[\n;]/).forEach(l=>l.split(",").forEach(p=>{const m=p.match(/(\d{1,2})\s*[–—-]\s*(\d{1,2})/);if(m)n+=Math.max(0,+m[2]-+m[1]+1);else n+=(p.match(/\b\d{1,2}\b/g)||[]).length}));return n}
+function buildMonth(S){
+ const rows=n=>(S[n]||[]).slice(1);
+ const meta=S.Meta||[];let per=meta[0]?meta[0][1]:"";
+ if(typeof per!=="string"||!/^\d{4}-\d{2}$/.test(per.trim()))throw new Error("Periode di sheet Meta harus berformat TAHUN-BULAN, misalnya 2026-11 (sel dibiarkan berformat teks).");
+ per=per.trim();const y=+per.slice(0,4),mo=+per.slice(5,7);
+ if(mo<1||mo>12)throw new Error("Bulan pada Periode tidak valid: "+per);
+ const cat=[],master={};
+ rows("Daftar_Nama").forEach(r=>{const n=normN(r[0]);if(!n||isEx(n))return;master[keyN(n)]=n;String(r[3]||"").split(/[;|]/).forEach(a=>{if(normN(a))master[keyN(a)]=n})});
+ const hasM=Object.keys(master).length>0,warned={};
+ const who=(raw,ctx)=>{const k=keyN(raw),m=master[k];if(hasM&&!m&&!warned[k]){warned[k]=1;cat.push(`${cleanN(raw)||normN(raw)} (${ctx}) belum ada di Daftar_Nama; tambahkan atau isi kolom "Ejaan lain".`)}return m||cleanN(raw)||normN(raw)};
+ const num=(v,sh,i,what)=>{const n=toN(v);if(isNaN(n)){cat.push(`Sheet ${sh} baris ${i+2}: ${what} bukan angka; dianggap 0.`);return 0}return n};
+ const P={};let order=[];
+ const getP=(u,name)=>{const k=u+"|"+name.toLowerCase();if(!P[k]){P[k]={u,name,jp:null,t:0,iz:0,cu:0,ket:"",pres:false};order.push(k)}return P[k]};
+ const addPres=(u,sh,list,uCol)=>{const seen={};list.forEach((r,i)=>{const raw=uCol?r[0]:"",nm=normN(uCol?r[1]:r[1]);if(!nm||isEx(nm))return;
+  const unit=uCol?normN(raw):u;if(!unit){cat.push(`${sh} baris ${i+2}: unit kosong untuk ${cleanN(nm)}; baris dilewati.`);return}
+  const name=who(nm,unit),k=unit+"|"+name.toLowerCase();if(seen[k]){cat.push(`${sh}: ${name} (${unit}) tercatat dua kali; baris kedua dilewati.`);return}seen[k]=1;
+  const x=getP(unit,name);x.pres=true;x.jp=r[2]===""||r[2]==null||toN(r[2])===0&&/^[-–—]/.test(String(r[2]).trim())?null:num(r[2],sh,i,"JP");
+  x.t=num(r[3],sh,i,"T (terlambat)");x.iz=num(r[4],sh,i,"I (izin)");const al=num(r[5],sh,i,"A (alpa)");if(al>0)cat.push(`${name} (${unit}): alpa ${al} kali tercatat di presensi.`)})};
+ const addCuti=(u,sh,list,ma)=>{const seen={};list.forEach((r,i)=>{const nm=normN(r[1]);if(!nm||isEx(nm))return;const name=who(nm,u);
+  if(seen[name]){cat.push(`${sh}: ${name} tercatat dua kali; baris kedua dilewati.`);return}seen[name]=1;
+  let jum,ket;
+  if(ma){jum=num(r[4],sh,i,"Jumlah cuti");ket=normN(r[3]);const tg=String(r[2]||"");const c=countDates(tg);
+   if(c>0&&c!==jum)cat.push(`${name} (${u}): tanggal cuti tercatat ${c} hari, jumlah tertulis ${jum}.`);
+   if(c===0&&jum>0)cat.push(`${name} (${u}): cuti ${jum} hari tanpa tanggal.`)}
+  else{jum=num(r[2],sh,i,"Izin")+num(r[3],sh,i,"Sakit")+num(r[4],sh,i,"Alfa");ket=normN(r[6])}
+  if(jum===0&&!ket)return;
+  const x=getP(u,name);if(!x.pres)cat.push(`${name} (${u}) ada di rekap cuti tetapi tidak ada di presensi.`);
+  x.cu=jum;x.ket=ket;if(jum>0&&!ket)cat.push(`${name} (${u}): cuti ${jum} hari tanpa keterangan alasan.`)})};
+ addPres("SMP","SMP_Presensi",rows("SMP_Presensi"));addCuti("SMP","SMP_Cuti",rows("SMP_Cuti"),false);
+ addPres("MA","MA_Presensi",rows("MA_Presensi"));addCuti("MA","MA_Cuti",rows("MA_Cuti"),true);
+ addPres("","Presensi",rows("Presensi"),true);
+ Object.values(P).forEach(x=>{if(x.pres&&x.iz>0&&x.iz!==x.cu)cat.push(`${x.name} (${x.u}): presensi izin ${x.iz} hari, rekap cuti ${x.cu} hari; tidak sama.`)});
+ const staff=order.map(k=>{const x=P[k];return[x.u,x.name,x.jp,x.t,x.iz,x.cu,x.ket]});
+ // struktur
+ const struktur={};
+ ["SMP","MA"].forEach(u=>{const wali=[],waka=[];
+  rows(u+"_WaliKelas").forEach(r=>{const n=normN(r[2]);if(!n||isEx(n))return;wali.push([normN(r[1]),who(n,u)])});
+  rows(u+"_Waka").forEach(r=>{const n=normN(r[2]);if(!n||isEx(n))return;waka.push([normN(r[1]),who(n,u)])});
+  struktur[u]={wali,waka};
+  const tel=n=>{const x=P[u+"|"+n.toLowerCase()];return x?x.t:0};
+  const wt=wali.filter(w=>tel(w[1])>=10).map(w=>`${w[1]} (wali ${w[0]}, ${tel(w[1])}x)`);
+  if(wt.length)cat.push(`${u}: ${wt.length} wali kelas terlambat ≥10 kali: ${wt.join(", ")}.`);
+  const R={};wali.forEach(w=>(R[w[1]]=R[w[1]]||[]).push("wali "+w[0]));waka.forEach(w=>(R[w[1]]=R[w[1]]||[]).push(w[0]));
+  const rg=Object.entries(R).filter(e=>e[1].length>1).map(e=>`${e[0]} (${e[1].join(" + ")})`);
+  if(rg.length)cat.push(`${u}: ${rg.length} guru merangkap jabatan: ${rg.join("; ")}.`)});
+ // non guru
+ const nong=[],seenN={};
+ rows("NonGuru").forEach((r,i)=>{const nm=normN(r[1]),u=normN(r[0]);if(!nm||isEx(nm))return;
+  if(!u){cat.push(`NonGuru baris ${i+2}: unit kosong untuk ${cleanN(nm)}; baris dilewati.`);return}
+  const name=who(nm,u),k=u+"|"+name.toLowerCase();if(seenN[k]){cat.push(`NonGuru: ${name} (${u}) tercatat dua kali; baris kedua dilewati.`);return}seenN[k]=1;
+  const hk=num(r[2],"NonGuru",i,"Hari kerja"),h=num(r[3],"NonGuru",i,"Hadir"),iz=num(r[4],"NonGuru",i,"Izin"),al=num(r[5],"NonGuru",i,"Alpa");
+  if(h>hk)cat.push(`${name} (${u}): hadir ${h} lebih besar dari hari kerja ${hk}.`);
+  else if(hk>0&&h+iz+al!==hk)cat.push(`${name} (${u}): hadir+izin+alpa = ${h+iz+al}, tidak sama dengan hari kerja ${hk}.`);
+  nong.push([u,name,hk,h,iz,al,normN(r[6])])});
+ if(!staff.length&&!nong.length)throw new Error("Tidak ada data presensi atau non-guru yang terbaca. Isi minimal satu sheet presensi.");
+ const byN={};[...staff,...nong].forEach(x=>{(byN[x[1].toLowerCase()]=byN[x[1].toLowerCase()]||{n:x[1],u:new Set()}).u.add(x[0])});
+ Object.values(byN).forEach(o=>{if(o.u.size>1)cat.push(`${o.n} tercatat di beberapa unit (${[...o.u].join(", ")}); dihitung satu kali dengan nilai tertinggi.`)});
+ // honor
+ const honor=[];
+ const hs=[];rows("SMP_Honor").forEach((r,i)=>{const nm=normN(r[1]);if(!nm||isEx(nm))return;const name=who(nm,"SMP");
+  const w=[2,3,4,5,6].map(c=>num(r[c],"SMP_Honor",i,"Minggu "+(c-1))),j=w.reduce((a,b)=>a+b,0),nom=num(r[8],"SMP_Honor",i,"Nominal");hs.push({name,j,nom,tot:j*nom})});
+ if(hs.length){const cnt={};hs.forEach(x=>cnt[x.nom]=(cnt[x.nom]||0)+1);const modal=+Object.keys(cnt).sort((a,b)=>cnt[b]-cnt[a])[0];
+  hs.filter(x=>x.nom!==modal).forEach(x=>cat.push(`Honor bimbel SMP: tarif ${x.name} Rp${x.nom.toLocaleString("id-ID")} berbeda dari tarif umum Rp${modal.toLocaleString("id-ID")}; mohon jelaskan dasarnya.`));
+  honor.push(["Bimbel TKA SMP",hs.length,hs.reduce((a,x)=>a+x.j,0),hs.reduce((a,x)=>a+x.tot,0)])}
+ const ks=[];rows("MA_KelasSore").forEach((r,i)=>{const nm=normN(r[1]);if(!nm||isEx(nm))return;const name=who(nm,"MA");const j=num(r[2],"MA_KelasSore",i,"Pertemuan"),t=num(r[3],"MA_KelasSore",i,"Tarif");ks.push({name,j,tot:j*t})});
+ if(ks.length)honor.push(["Kelas sore MA pusat",ks.length,ks.reduce((a,x)=>a+x.j,0),ks.reduce((a,x)=>a+x.tot,0)]);
+ rows("Honor").forEach((r,i)=>{const k=normN(r[0]);if(!k||isEx(k))return;honor.push([k,num(r[1],"Honor",i,"Jumlah guru"),num(r[2],"Honor",i,"Pertemuan"),num(r[3],"Honor",i,"Total")])});
+ const mr=(S.Media||[])[2]||[];const media={live:toN(mr[0])||0,event:toN(mr[1])||0,dok:toN(mr[2])||0,desain:toN(mr[3])||0};
+ rows("Catatan_Unit").forEach(r=>{const u=normN(r[0]),t=normN(r[1]);if(t&&!isEx(t))cat.push(`Catatan ${u||"unit"}: ${t}`)});
+ return{key:per,bulan:BLN[mo-1]+" "+y,hariKalender:new Date(y,mo,0).getDate(),staff,nonguru:nong,honor,media,catatan:cat,struktur,docs:[],pimp:{}}}
+function mergeSheets(list){const out={};
+ SHEETS.forEach(n=>{
+  if(n=="Meta"){out.Meta=(list.find(s=>s.Meta&&s.Meta.length)||{}).Meta||[];return}
+  out[n]=[[],...[].concat(...list.map(s=>(s[n]||[]).slice(1)))]});
+ return out}
+// ===== end impor =====
 // ===== TTD & stempel =====
 function readImg(f,cb){const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,500/Math.max(im.width,im.height)),c=document.createElement("canvas");c.width=im.width*k;c.height=im.height*k;c.getContext("2d").drawImage(im,0,0,c.width,c.height);cb(c.toDataURL("image/png"))};im.src=r.result};r.readAsDataURL(f)}
 function clrSign(){TTD="";STP="";try{localStorage.removeItem("monevTtd");localStorage.removeItem("monevStp")}catch(e){}render()}
@@ -478,15 +566,16 @@ function applyView(){document.querySelectorAll(".vw").forEach(v=>v.hidden=v.data
 function toggleSign(){const k=cur+"-"+SEL;SG[k]=!SG[k];try{localStorage.setItem("monevSG",JSON.stringify(SG))}catch(e){}render()}
 const goto=i=>{SEL=String(i);applyView();scrollTo(0,0);return false};
 function render(){
+ ANMAP=null;
  const d=STORE[cur],k=sum2(d),keys=Object.keys(STORE).sort(),pk=keys[keys.indexOf(cur)-1],pv=pk?sum2(STORE[pk]):null,docs=d.docs||[];
  $("bln").innerHTML=keys.map(x=>`<option value="${x}"${x==cur?" selected":""}>${STORE[x].bulan}</option>`).join("");
  const rank=k.u.filter(x=>x.t>0).sort((a,b)=>b.t-a.t),izl=k.u.filter(x=>x.c>0).sort((a,b)=>b.c-a.c),fl=rank.filter(x=>x.t>=10).map(x=>x.n);
- const uT=["SMP","MA","Struktural"].map(u=>{const r=d.staff.filter(s=>s[0]==u);return[u,r.length,sum(r,s=>s[3]),sum(r,s=>s[5])]});
+ const uT=[...new Set(d.staff.map(s=>s[0]))].map(u=>{const r=d.staff.filter(s=>s[0]==u);return[u,r.length,sum(r,s=>s[3]),sum(r,s=>s[5])]});
  const ngU=[...new Set(d.nonguru.map(x=>x[0]))].map(u=>{const r=d.nonguru.filter(x=>x[0]==u);return[u,r.length,sum(r,x=>x[2]),sum(r,x=>x[3]),sum(r,x=>x[4]),sum(r,x=>x[5])]});
  const m=d.media;
 const cnt={ok:0,warn:0,bad:0};docs.forEach(x=>cnt[x.st]++);
  const nb=i=>"MONEV/"+cur.slice(5)+"-"+cur.slice(0,4)+"/"+String(i+1).padStart(2,"0");
- const toc=[["Daftar Isi, Dasar dan Metode","",0],["Ringkasan untuk Pimpinan","",0],["Ringkasan Eksekutif dan Daftar Berkas","",0],["Tabel Tindak Lanjut","",0],["Rekomendasi dan Catatan Kualitas Data","",0],["ANALISIS PER BERKAS","",1],...docs.map((x,i)=>["Berkas "+(i+1)+" – "+x.t,nb(i),2]),["Lampiran Data Mentah Awal","",0]];
+ const toc=[["Daftar Isi, Dasar dan Metode","",0],["Ringkasan untuk Pimpinan","",0],["Ringkasan Eksekutif dan Daftar Berkas","",0],["Tabel Tindak Lanjut","",0],["Rekomendasi dan Catatan Kualitas Data","",0],...(docs.length?[["ANALISIS PER BERKAS","",1],...docs.map((x,i)=>["Berkas "+(i+1)+" – "+x.t,nb(i),2])]:[]),["Lampiran Data Mentah Awal","",0]];
  const tocH=toc.map(r=>r[2]==1?`<div class="tc hd"><span>${r[0]}</span></div>`:`<div class="tc${r[2]==2?" sb":""}"><span>${r[0]}</span>${r[1]?`<i></i><b>${r[1]}</b>`:""}</div>`).join("");
  const pm=d.pimp||{},nov=new Date(+d.key.slice(0,4),+d.key.slice(5,7),0),fmt=x=>x.toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"}),addD=n=>new Date(nov.getTime()+n*864e5).toLocaleDateString("id-ID",{day:"numeric",month:"short",year:"numeric"});
  const temuan=[`Keterlambatan ${k.telat} kejadian; ${fl.length} orang mencapai ≥10 kali (${fl.join(", ")||"tidak ada"}).`,izl.length?`Izin/cuti ${k.izin} hari; terpanjang ${izl[0].n} (${izl[0].c} hari).`:"Tidak ada izin/cuti tercatat.",...(pm.temuan||[])].slice(0,6);
@@ -495,7 +584,7 @@ const cnt={ok:0,warn:0,bad:0};docs.forEach(x=>cnt[x.st]++);
  const blk=`<h4>PENGESAHAN LAPORAN</h4><div class="sg s3"><div>Disusun oleh,<br>Kepala Sub Bidang Kepegawaian<p>${STP?`<img class="stp" src="${STP}" alt="">`:""}${TTD?`<img class="ttd" src="${TTD}" alt="">`:""}Candra Saputra, S.H., S.Pd., Gr.<br><span class="nipy">NIPY. 180907881009</span></p></div><div>Diperiksa oleh,<br>(pemeriksa independen)<p>( ................................ )<br><span class="nipy">Jabatan: ........................</span></p></div><div>Disetujui oleh,<br>Pimpinan dan Pengasuh<p>KH. Abdillah As'ad, Lc, M.Pd</p></div></div>`;
  const front=`<section class="toc"><h2>Daftar Isi</h2>${tocH}
 <h2 style="margin-top:22px">Dasar dan Metode</h2><ul>
-<li><b>Sumber data:</b> ${docs.length} berkas PDF yang diserahkan unit ke Sub Bidang Kepegawaian untuk periode ${d.bulan} (daftar lengkap di Lampiran Data Mentah).</li>
+<li><b>Sumber data:</b> ${docs.length?`${docs.length} berkas PDF yang diserahkan unit ke Sub Bidang Kepegawaian untuk periode ${d.bulan} (daftar lengkap di Lampiran Data Mentah).`:`templat data bulanan (.xlsx) yang diisi unit untuk periode ${d.bulan}, divalidasi otomatis saat diimpor.`}</li>
 <li><b>Pengolahan:</b> data diekstrak dari PDF. Berkas berupa scan atau tulisan tangan hanya sebagian yang dapat dihitung otomatis; angka berlabel “perkiraan” berasal dari pola jam ceklok.</li>
 <li><b>Penghitungan orang:</b> pegawai yang tercatat di beberapa unit dihitung satu kali dengan nilai tertinggi.</li>
 <li><b>Ambang pembinaan:</b> keterlambatan ≥10 kali dalam satu bulan ditandai merah dan diusulkan untuk pembinaan.</li>
@@ -505,7 +594,7 @@ const cnt={ok:0,warn:0,bad:0};docs.forEach(x=>cnt[x.st]++);
 <h2 style="margin-top:18px">Riwayat Revisi</h2><div class="tw"><table><tr><th>Versi</th><th>Tanggal</th><th>Perubahan</th><th>Oleh</th></tr>${(d.rev||[["1.0",TGL,"Penyusunan awal laporan "+d.bulan,"Sub Bidang Kepegawaian"]]).map(r=>`<tr>${r.map(v=>`<td>${v}</td>`).join("")}</tr>`).join("")}<tr><td>&nbsp;</td><td></td><td></td><td></td></tr></table></div></section>
 <section class="pgs pm"><h2>Ringkasan untuk Pimpinan – ${d.bulan}</h2>
 <p class="mut" style="margin:0 0 10px">Apa yang terjadi, seberapa serius, dan apa yang perlu diputuskan.</p>
-<div class="kpi"><div><b>${k.telat}</b><small>Kejadian terlambat</small></div><div><b>${k.izin}</b><small>Hari izin/cuti</small></div><div><b>${k.hadir.toFixed(1)}%</b><small>Kehadiran staf non-guru</small></div><div><b>${cnt.bad}</b><small>Berkas perlu tindak lanjut</small></div></div>
+<div class="kpi"><div><b>${k.telat}</b><small>Kejadian terlambat</small></div><div><b>${k.izin}</b><small>Hari izin/cuti</small></div><div><b>${d.nonguru.length?k.hadir.toFixed(1)+"%":"–"}</b><small>Kehadiran staf non-guru</small></div><div><b>${cnt.bad}</b><small>Berkas perlu tindak lanjut</small></div></div>
 <h4>STATUS ${docs.length} BERKAS</h4><div class="chips"><span class="tag ok">${cnt.ok} Baik</span><span class="tag warn">${cnt.warn} Perlu perhatian</span><span class="tag bad">${cnt.bad} Perlu tindak lanjut</span></div><div class="sbar">${sb}</div>
 <h4>TEMUAN UTAMA</h4><ol>${temuan.map(t=>`<li>${t}</li>`).join("")}</ol>
 <p class="mut" style="margin:6px 0 0;font-size:.9em"><i>Catatan: temuan di atas bersifat awal dan menunggu klarifikasi unit; belum menjadi dasar sanksi.</i></p>
@@ -521,13 +610,13 @@ const cnt={ok:0,warn:0,bad:0};docs.forEach(x=>cnt[x.st]++);
 <div><b>${k.orang}</b><small>Pegawai &amp; guru terpantau</small></div>
 <div><b>${k.telat}</b><small>Kejadian terlambat</small><br>${delta(k.telat,pv&&pv.telat)}</div>
 <div><b>${k.izin}</b><small>Hari izin/cuti</small><br>${delta(k.izin,pv&&pv.izin)}</div>
-<div><b>${k.hadir.toFixed(1)}%</b><small>Kehadiran staf non-guru</small></div>
+<div><b>${d.nonguru.length?k.hadir.toFixed(1)+"%":"–"}</b><small>Kehadiran staf non-guru</small></div>
 <div><b>${rp(k.honor)}</b><small>Honor bimbel &amp; kelas sore</small></div></div>
 <h4>Temuan utama</h4><ul>
 <li>Keterlambatan tertinggi: ${rank.slice(0,5).map(x=>x.n+" ("+x.t+"x)").join(", ")}; ${fl.length} orang mencapai ≥10 kali.</li>
 <li>Izin/cuti terpanjang: ${izl.slice(0,4).map(x=>x.n+" ("+x.c+" hari)").join(", ")}.</li>
-<li>Staf non-guru tanpa alpa atau sakit; Pak Wahid izin 2 hari dan 3x tidak ceklok.</li>
-<li>Satpam tercatat aman dan dapur lancar, namun kolom kondisi satpam kosong sejak 20 Oktober.</li>
+${docs.length?`<li>Staf non-guru tanpa alpa atau sakit; Pak Wahid izin 2 hari dan 3x tidak ceklok.</li>
+<li>Satpam tercatat aman dan dapur lancar, namun kolom kondisi satpam kosong sejak 20 Oktober.</li>`:`<li>Staf non-guru: ${sum(d.nonguru,x=>x[5])} hari alpa dan ${sum(d.nonguru,x=>x[4])} hari izin dari ${sum(d.nonguru,x=>x[2])} hari kerja.</li>`}
 <li>Media &amp; IT: live rutin ${m.live} hari, ${m.event} siaran event, ${m.dok} dokumentasi video, ${m.desain} desain pamflet.</li></ul>
 <div class="g2"><figure><figcaption>Keterlambatan per unit (kali)</figcaption>${dn(uT.map(r=>[r[0],r[2]]))}</figure>
 <figure><figcaption>Hari izin/cuti per unit</figcaption>${dn(uT.map(r=>[r[0],r[3]]))}</figure></div>
@@ -536,7 +625,7 @@ const cnt={ok:0,warn:0,bad:0};docs.forEach(x=>cnt[x.st]++);
 <div class="tw"><table><tr><th>Unit pengajar/struktural</th><th class="n">Orang</th><th class="n">Telat</th><th class="n">Hari izin</th></tr>${uT.map(r=>`<tr><td>${r[0]}</td><td class="n">${r[1]}</td><td class="n">${r[2]}</td><td class="n">${r[3]}</td></tr>`).join("")}</table></div><br>
 <div class="tw"><table><tr><th>Unit non-guru</th><th class="n">Orang</th><th class="n">Hari kerja</th><th class="n">Hadir</th><th class="n">Izin</th><th class="n">Alpa</th></tr>${ngU.map(r=>`<tr><td>${r[0]}</td>${r.slice(1).map(v=>`<td class="n">${v}</td>`).join("")}</tr>`).join("")}</table></div>
 <p class="mut">Ambang status: terlambat ≥10 kali perlu pembinaan (merah). Orang dengan peran ganda dihitung sekali (nilai tertinggi).</p></section>
-<section><h2>Daftar Berkas dan Status</h2><div class="tw"><table><tr><th>No</th><th>Berkas</th><th>Lembaga</th><th>Status</th><th>Pengesahan</th></tr>${docs.map((x,i)=>`<tr><td>${i+1}</td><td><a href="#" onclick="return goto(${i})">${x.t}</a></td><td>${x.u}</td><td><span class="tag ${x.st}">${SS[x.st]}</span></td><td>${SG[cur+"-"+i]?"Sudah":"Menunggu"}</td></tr>`).join("")}</table></div></section>
+<section><h2>Daftar Berkas dan Status</h2>${docs.length?"":`<p class="mut">Bulan ini data berasal dari templat spreadsheet, bukan berkas PDF per unit, sehingga belum ada analisis per berkas.</p>`}<div class="tw"><table><tr><th>No</th><th>Berkas</th><th>Lembaga</th><th>Status</th><th>Pengesahan</th></tr>${docs.map((x,i)=>`<tr><td>${i+1}</td><td><a href="#" onclick="return goto(${i})">${x.t}</a></td><td>${x.u}</td><td><span class="tag ${x.st}">${SS[x.st]}</span></td><td>${SG[cur+"-"+i]?"Sudah":"Menunggu"}</td></tr>`).join("")}</table></div></section>
 ${tlSec}<section class="pb"><h2>Rekomendasi</h2><ol>
 <li>Pembinaan guru dengan keterlambatan ≥10 kali: ${fl.join(", ")||"tidak ada"}; evaluasi ulang bulan depan.</li>
 <li>Verifikasi izin panjang dan samakan rekap cuti dengan presensi; siapkan mekanisme guru pengganti.</li>
@@ -549,6 +638,22 @@ $("lgo").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileRea
 $("ttd").onchange=e=>{const f=e.target.files[0];if(f)readImg(f,u=>{TTD=u;try{localStorage.setItem("monevTtd",u)}catch(x){}render()})};
 $("stp").onchange=e=>{const f=e.target.files[0];if(f)readImg(f,u=>{STP=u;try{localStorage.setItem("monevStp",u)}catch(x){}render()})};
 $("bln").onchange=e=>{cur=e.target.value;render()};
-$("imp").onchange=e=>{const f=e.target.files[0];if(!f)return;f.text().then(t=>{try{const d=JSON.parse(t);if(!d.key||!d.staff)throw 0;STORE[d.key]=d;cur=d.key;try{localStorage.setItem("monev",JSON.stringify(STORE))}catch(x){}render()}catch(x){alert("File tidak valid. Gunakan JSON hasil 'Unduh data' sebagai templat.")}})};
+function afterImport(d,extra){STORE[d.key]=d;cur=d.key;SEL="r";try{localStorage.setItem("monev",JSON.stringify(STORE))}catch(x){}render();
+ alert("Impor berhasil: "+d.bulan+"\n"+d.staff.length+" baris guru/struktural, "+d.nonguru.length+" baris non-guru.\n"+d.catatan.length+" catatan kualitas data dibuat otomatis (lihat bagian akhir Ringkasan)."+(extra||""))}
+$("imp").onchange=async e=>{const fs=[...e.target.files];e.target.value="";if(!fs.length)return;
+ try{
+  if(fs.every(f=>/\.json$/i.test(f.name))){const d=JSON.parse(await fs[0].text());if(!d.key||!d.staff)throw new Error("File JSON tidak valid. Gunakan JSON hasil 'Unduh data' sebagai templat.");afterImport(d);return}
+  if(fs.some(f=>/\.json$/i.test(f.name)))throw new Error("Pilih file .xlsx saja, atau satu file .json saja.");
+  if(typeof XLSX==="undefined")throw new Error("Pustaka pembaca Excel belum termuat. Sambungkan internet lalu muat ulang halaman ini.");
+  const list=[];
+  for(const f of fs){const wb=XLSX.read(await f.arrayBuffer(),{type:"array"});const S={};
+   SHEETS.forEach(n=>{S[n]=wb.Sheets[n]?XLSX.utils.sheet_to_json(wb.Sheets[n],{header:1,defval:"",raw:true}):[]});
+   if(!SHEETS.slice(2,15).some(n=>wb.Sheets[n]))throw new Error("File "+f.name+" bukan templat monev (sheet Presensi/NonGuru tidak ditemukan).");
+   S._f=f.name;list.push(S)}
+  const per=list.map(S=>({f:S._f,p:((S.Meta[0]||[])[1]||"").toString().trim()}));
+  if(new Set(per.map(x=>x.p)).size>1)throw new Error("Periode antar file berbeda: "+per.map(x=>x.f+" = "+x.p).join("; "));
+  const d=buildMonth(mergeSheets(list));d.catatan.unshift("Data bulan ini diimpor dari "+fs.length+" file templat: "+fs.map(f=>f.name).join(", ")+". Berkas PDF sumber belum dianalisis per berkas.");
+  afterImport(d)
+ }catch(err){alert("Impor gagal: "+err.message)}};
 render();
 </script></body></html>
